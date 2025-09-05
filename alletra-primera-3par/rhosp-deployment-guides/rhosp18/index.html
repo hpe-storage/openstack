@@ -73,12 +73,6 @@
     <ul class="current">
                 <li class="toctree-l3 current"><a class="reference internal current" href="#">RHOSP 18</a>
     <ul class="current">
-    <li class="toctree-l4"><a class="reference internal" href="#prerequisites">Prerequisites</a>
-    </li>
-    <li class="toctree-l4"><a class="reference internal" href="#deployment-steps">Deployment Steps</a>
-    </li>
-    <li class="toctree-l4"><a class="reference internal" href="#references">References</a>
-    </li>
     </ul>
                 </li>
                 <li class="toctree-l3"><a class="reference internal" href="../rhosp17/">RHOSP 17</a>
@@ -141,24 +135,28 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="rhosp-18-deployment-guide-hpe-alletra-mp">RHOSP 18 Deployment Guide (HPE Alletra MP)</h1>
-<h2 id="prerequisites">Prerequisites</h2>
+<p><strong>Prerequisites</strong></p>
 <ul>
 <li>RHOSP 18 installed</li>
 <li>Alletra MP reachable</li>
 <li>Required packages installed</li>
 </ul>
-<h2 id="deployment-steps">Deployment Steps</h2>
+<p><strong>Deployment Steps</strong></p>
 <ol>
-<li>Clone:
-   <code>bash
-   git clone https://github.com/hpe-storage/hpe-openstack-docs.git
-   cd hpe-openstack-docs/hpe-alletra-mp-rhoso18</code></li>
-<li>Edit environment files for your array.</li>
-<li>Deploy with:
-   <code>bash
-   openstack overcloud deploy -e hpe-alletra-mp.yaml</code></li>
+<li>Clone:</li>
 </ol>
-<h2 id="references">References</h2>
+<p><code>git clone https://github.com/hpe-storage/hpe-openstack-docs.git
+   cd hpe-openstack-docs/hpe-alletra-mp-rhoso18</code></p>
+<ol>
+<li>
+<p>Edit environment files for your array.</p>
+</li>
+<li>
+<p>Deploy with:</p>
+</li>
+</ol>
+<p><code>openstack overcloud deploy -e hpe-alletra-mp.yaml</code></p>
+<p><strong>References</strong></p>
 <ul>
 <li><a href="https://github.com/hpe-storage/hpe-openstack-docs/tree/main/hpe-alletra-mp-rhoso18">GitHub repo</a></li>
 </ul>
