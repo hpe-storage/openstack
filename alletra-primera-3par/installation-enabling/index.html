@@ -45,7 +45,7 @@
               </ul>
               <p class="caption"><span class="caption-text">Cinder Driver</span></p>
               <ul class="current">
-                  <li class="toctree-l1 current"><a class="reference internal current" >Alletra MP / Primera / 3PAR</a>
+                  <li class="toctree-l1 current"><a class="reference internal current" >Alletra MP / Alletra 9000 / Primera / 3PAR</a>
     <ul class="current">
                 <li class="toctree-l2"><a class="reference internal" href="../overview/">Overview</a>
                 </li>
@@ -123,7 +123,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
           <li class="breadcrumb-item">Cinder Driver</li>
-          <li class="breadcrumb-item">Alletra MP / Primera / 3PAR</li>
+          <li class="breadcrumb-item">Alletra MP / Alletra 9000 / Primera / 3PAR</li>
       <li class="breadcrumb-item active">Installation & Enabling</li>
     <li class="wy-breadcrumbs-aside">
     </li>
@@ -135,18 +135,15 @@
               
                 <h1 id="installation-enabling-the-driver">Installation &amp; Enabling the Driver</h1>
 <ol>
-<li>
-<p>Install required packages:
-   <code>bash
-   pip install python-3parclient</code></p>
-</li>
-<li>
-<p>Edit <code>cinder.conf</code>:
-   ```ini
+<li>Install required packages:</li>
+</ol>
+<p><code>pip install python-3parclient</code></p>
+<ol>
+<li>Edit <code>cinder.conf</code>:</li>
+</ol>
+<p>```
    [DEFAULT]
    enabled_backends = hpe3par</p>
-</li>
-</ol>
 <p>[hpe3par]
    volume_driver = cinder.volume.drivers.hpe.hpe_3par_fc.HPE3PARFCDriver
    san_ip = <array-ip>
@@ -156,10 +153,9 @@
    hpe3par_cpg = <CPG-name>
    ```</p>
 <ol>
-<li>Restart Cinder services:
-   <code>bash
-   systemctl restart openstack-cinder-volume</code></li>
+<li>Restart Cinder services:</li>
 </ol>
+<p><code>systemctl restart openstack-cinder-volume</code></p>
               
             </div>
           </div><footer>
