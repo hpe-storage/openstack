@@ -5,15 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="../../../img/favicon.ico" />
-    <title>Peer Persistence - HPE OpenStack Drivers</title>
+    <title>RHOSP 17 - HPE OpenStack Drivers</title>
     <link rel="stylesheet" href="../../../css/theme.css" />
     <link rel="stylesheet" href="../../../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Peer Persistence";
-        var mkdocs_page_input_path = "alletra-3par-primera/advanced-features/peer-persistence.md";
+        var mkdocs_page_name = "RHOSP 17";
+        var mkdocs_page_input_path = "alletra-primera-3par/rhosp-deployment-guides/rhosp17.md";
         var mkdocs_page_url = null;
       </script>
     
@@ -45,7 +45,7 @@
               </ul>
               <p class="caption"><span class="caption-text">Cinder Driver</span></p>
               <ul class="current">
-                  <li class="toctree-l1 current"><a class="reference internal current" >Alletra MP / 3PAR / Primera</a>
+                  <li class="toctree-l1 current"><a class="reference internal current" >Alletra MP / Primera / 3PAR</a>
     <ul class="current">
                 <li class="toctree-l2"><a class="reference internal" href="../../overview/">Overview</a>
                 </li>
@@ -59,15 +59,35 @@
                 </li>
                 <li class="toctree-l2"><a class="reference internal" href="../../extra-specs-qos/">Extra Specs & QoS</a>
                 </li>
-                <li class="toctree-l2 current"><a class="reference internal current" >Advanced Features</a>
-    <ul class="current">
-                <li class="toctree-l3"><a class="reference internal" href="../nsp-fc-bootable/">NSP for FC Bootable Volumes</a>
+                <li class="toctree-l2"><a class="reference internal" >Advanced Features</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../advanced-features/nsp-fc-bootable/">NSP for FC Bootable Volumes</a>
                 </li>
-                <li class="toctree-l3 current"><a class="reference internal current" href="#">Peer Persistence</a>
-    <ul class="current">
+                <li class="toctree-l3"><a class="reference internal" href="../../advanced-features/peer-persistence/">Peer Persistence</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../advanced-features/duplicate-fqdn/">Duplicate FQDN Support</a>
+                </li>
     </ul>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../duplicate-fqdn/">Duplicate FQDN Support</a>
+                <li class="toctree-l2 current"><a class="reference internal current" >RHOSP Deployment Guides</a>
+    <ul class="current">
+                <li class="toctree-l3"><a class="reference internal" href="../rhosp18/">RHOSP 18</a>
+                </li>
+                <li class="toctree-l3 current"><a class="reference internal current" href="#">RHOSP 17</a>
+    <ul class="current">
+    <li class="toctree-l4"><a class="reference internal" href="#prerequisites">Prerequisites</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#deployment-steps">Deployment Steps</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#references">References</a>
+    </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Supportability</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../supportability/overview/">Overview</a>
                 </li>
     </ul>
                 </li>
@@ -75,7 +95,7 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" >Nimble / Alletra 6k</a>
     <ul>
-                <li class="toctree-l2"><a class="reference internal" href="../../../nimble-alletra6k/overview-compatibility/">Overview & Compatibility</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../../nimble-alletra6k/overview/">Overview</a>
                 </li>
                 <li class="toctree-l2"><a class="reference internal" href="../../../nimble-alletra6k/supported-operations/">Supported Operations</a>
                 </li>
@@ -88,14 +108,6 @@
                 <li class="toctree-l2"><a class="reference internal" href="../../../nimble-alletra6k/multipathing/">Multipathing</a>
                 </li>
                 <li class="toctree-l2"><a class="reference internal" href="../../../nimble-alletra6k/consistency-group-replication/">Consistency Group Replication</a>
-                </li>
-    </ul>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" >RHOSP Deployment Guides</a>
-    <ul>
-                <li class="toctree-l2"><a class="reference internal" href="../../../rhosp-deployment-guides/rhosp17/">RHOSP 17 (3PAR/Primera/Alletra 9000)</a>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" href="../../../rhosp-deployment-guides/rhosp18/">RHOSP 18 (Alletra MP)</a>
                 </li>
     </ul>
                   </li>
@@ -117,9 +129,9 @@
   <ul class="wy-breadcrumbs">
     <li><a href="../../.." class="icon icon-home" aria-label="Docs"></a></li>
           <li class="breadcrumb-item">Cinder Driver</li>
-          <li class="breadcrumb-item">Alletra MP / 3PAR / Primera</li>
-          <li class="breadcrumb-item">Advanced Features</li>
-      <li class="breadcrumb-item active">Peer Persistence</li>
+          <li class="breadcrumb-item">Alletra MP / Primera / 3PAR</li>
+          <li class="breadcrumb-item">RHOSP Deployment Guides</li>
+      <li class="breadcrumb-item active">RHOSP 17</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -128,20 +140,35 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="peer-persistence">Peer Persistence</h1>
-<p>HPE Peer Persistence provides:
-- Transparent failover between two arrays
-- Zero RPO (synchronous replication)
-- Continuous availability during site failures</p>
-<p>Enable replication and configure Peer Persistence in Cinder by setting:</p>
-<pre><code class="language-ini">replication_device = backend_id:remote_array, san_ip:&lt;ip&gt;, san_login:&lt;user&gt;, san_password:&lt;pass&gt;
-</code></pre>
+                <h1 id="rhosp-17-deployment-guide-hpe-3par-primera-alletra-9000">RHOSP 17 Deployment Guide (HPE 3PAR / Primera / Alletra 9000)</h1>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>RHOSP 17 installed</li>
+<li>HPE storage reachable</li>
+<li>Required packages:</li>
+<li>python-3parclient</li>
+<li>hpe3parclient</li>
+</ul>
+<h2 id="deployment-steps">Deployment Steps</h2>
+<ol>
+<li>Clone:
+   <code>bash
+   git clone https://github.com/hpe-storage/hpe-3par-cinder-rhosp17.git</code></li>
+<li>Edit environment files with array IPs and credentials.</li>
+<li>Deploy with:
+   <code>bash
+   openstack overcloud deploy -e hpe3par-cinder.yaml</code></li>
+</ol>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://github.com/hpe-storage/hpe-3par-cinder-rhosp17">GitHub repo</a></li>
+</ul>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../nsp-fc-bootable/" class="btn btn-neutral float-left" title="NSP for FC Bootable Volumes"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../duplicate-fqdn/" class="btn btn-neutral float-right" title="Duplicate FQDN Support">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../rhosp18/" class="btn btn-neutral float-left" title="RHOSP 18"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../../supportability/overview/" class="btn btn-neutral float-right" title="Overview">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -164,10 +191,10 @@
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../nsp-fc-bootable/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../rhosp18/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../duplicate-fqdn/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../../supportability/overview/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>

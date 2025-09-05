@@ -5,15 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="../../img/favicon.ico" />
-    <title>RHOSP 18 (Alletra MP) - HPE OpenStack Drivers</title>
+    <title>System Requirements - HPE OpenStack Drivers</title>
     <link rel="stylesheet" href="../../css/theme.css" />
     <link rel="stylesheet" href="../../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
     
       <script>
         // Current page data
-        var mkdocs_page_name = "RHOSP 18 (Alletra MP)";
-        var mkdocs_page_input_path = "rhosp-deployment-guides/rhosp18.md";
+        var mkdocs_page_name = "System Requirements";
+        var mkdocs_page_input_path = "alletra-primera-3par/system-requirements.md";
         var mkdocs_page_url = null;
       </script>
     
@@ -45,27 +45,49 @@
               </ul>
               <p class="caption"><span class="caption-text">Cinder Driver</span></p>
               <ul class="current">
-                  <li class="toctree-l1"><a class="reference internal" >Alletra MP / 3PAR / Primera</a>
-    <ul>
-                <li class="toctree-l2"><a class="reference internal" href="../../alletra-3par-primera/overview/">Overview</a>
+                  <li class="toctree-l1 current"><a class="reference internal current" >Alletra MP / Primera / 3PAR</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../overview/">Overview</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="../../alletra-3par-primera/system-requirements/">System Requirements</a>
+                <li class="toctree-l2 current"><a class="reference internal current" href="#">System Requirements</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#software-requirements">Software Requirements</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#network-requirements">Network Requirements</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#storage-requirements">Storage Requirements</a>
+    </li>
+    </ul>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="../../alletra-3par-primera/supported-operations/">Supported Operations</a>
+                <li class="toctree-l2"><a class="reference internal" href="../supported-operations/">Supported Operations</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="../../alletra-3par-primera/installation-enabling/">Installation & Enabling</a>
+                <li class="toctree-l2"><a class="reference internal" href="../installation-enabling/">Installation & Enabling</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="../../alletra-3par-primera/fc-iscsi-configuration/">FC / iSCSI Configuration</a>
+                <li class="toctree-l2"><a class="reference internal" href="../fc-iscsi-configuration/">FC / iSCSI Configuration</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="../../alletra-3par-primera/extra-specs-qos/">Extra Specs & QoS</a>
+                <li class="toctree-l2"><a class="reference internal" href="../extra-specs-qos/">Extra Specs & QoS</a>
                 </li>
                 <li class="toctree-l2"><a class="reference internal" >Advanced Features</a>
     <ul>
-                <li class="toctree-l3"><a class="reference internal" href="../../alletra-3par-primera/advanced-features/nsp-fc-bootable/">NSP for FC Bootable Volumes</a>
+                <li class="toctree-l3"><a class="reference internal" href="../advanced-features/nsp-fc-bootable/">NSP for FC Bootable Volumes</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../../alletra-3par-primera/advanced-features/peer-persistence/">Peer Persistence</a>
+                <li class="toctree-l3"><a class="reference internal" href="../advanced-features/peer-persistence/">Peer Persistence</a>
                 </li>
-                <li class="toctree-l3"><a class="reference internal" href="../../alletra-3par-primera/advanced-features/duplicate-fqdn/">Duplicate FQDN Support</a>
+                <li class="toctree-l3"><a class="reference internal" href="../advanced-features/duplicate-fqdn/">Duplicate FQDN Support</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >RHOSP Deployment Guides</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../rhosp-deployment-guides/rhosp18/">RHOSP 18</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../rhosp-deployment-guides/rhosp17/">RHOSP 17</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Supportability</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../supportability/overview/">Overview</a>
                 </li>
     </ul>
                 </li>
@@ -73,7 +95,7 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" >Nimble / Alletra 6k</a>
     <ul>
-                <li class="toctree-l2"><a class="reference internal" href="../../nimble-alletra6k/overview-compatibility/">Overview & Compatibility</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../nimble-alletra6k/overview/">Overview</a>
                 </li>
                 <li class="toctree-l2"><a class="reference internal" href="../../nimble-alletra6k/supported-operations/">Supported Operations</a>
                 </li>
@@ -86,22 +108,6 @@
                 <li class="toctree-l2"><a class="reference internal" href="../../nimble-alletra6k/multipathing/">Multipathing</a>
                 </li>
                 <li class="toctree-l2"><a class="reference internal" href="../../nimble-alletra6k/consistency-group-replication/">Consistency Group Replication</a>
-                </li>
-    </ul>
-                  </li>
-                  <li class="toctree-l1 current"><a class="reference internal current" >RHOSP Deployment Guides</a>
-    <ul class="current">
-                <li class="toctree-l2"><a class="reference internal" href="../rhosp17/">RHOSP 17 (3PAR/Primera/Alletra 9000)</a>
-                </li>
-                <li class="toctree-l2 current"><a class="reference internal current" href="#">RHOSP 18 (Alletra MP)</a>
-    <ul class="current">
-    <li class="toctree-l3"><a class="reference internal" href="#prerequisites">Prerequisites</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#deployment-steps">Deployment Steps</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#references">References</a>
-    </li>
-    </ul>
                 </li>
     </ul>
                   </li>
@@ -123,8 +129,8 @@
   <ul class="wy-breadcrumbs">
     <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
           <li class="breadcrumb-item">Cinder Driver</li>
-          <li class="breadcrumb-item">RHOSP Deployment Guides</li>
-      <li class="breadcrumb-item active">RHOSP 18 (Alletra MP)</li>
+          <li class="breadcrumb-item">Alletra MP / Primera / 3PAR</li>
+      <li class="breadcrumb-item active">System Requirements</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -133,34 +139,32 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="rhosp-18-deployment-guide-hpe-alletra-mp">RHOSP 18 Deployment Guide (HPE Alletra MP)</h1>
-<h2 id="prerequisites">Prerequisites</h2>
+                <h1 id="system-requirements">System Requirements</h1>
+<h2 id="software-requirements">Software Requirements</h2>
 <ul>
-<li>RHOSP 18 installed</li>
-<li>Alletra MP reachable</li>
-<li>Required packages installed</li>
+<li>HPE 3PAR OS v3.1.3 MU1 or later.</li>
+<li>Deduplication: requires SSDs and OS v3.2.1 MU1+.</li>
+<li>Flash Cache Policy: OS v3.2.1 MU2+, Flash Cache enabled, python-3parclient ≥ 4.2.0.</li>
+<li>Compression: requires SSDs and OS v3.3.1 MU1+ (8k/20k series).</li>
+<li>Primera / Alletra MP: python-3parclient ≥ 4.2.14.</li>
 </ul>
-<h2 id="deployment-steps">Deployment Steps</h2>
-<ol>
-<li>Clone:
-   <code>bash
-   git clone https://github.com/hpe-storage/hpe-openstack-docs.git
-   cd hpe-openstack-docs/hpe-alletra-mp-rhoso18</code></li>
-<li>Edit environment files for your array.</li>
-<li>Deploy with:
-   <code>bash
-   openstack overcloud deploy -e hpe-alletra-mp.yaml</code></li>
-</ol>
-<h2 id="references">References</h2>
+<h2 id="network-requirements">Network Requirements</h2>
 <ul>
-<li><a href="https://github.com/hpe-storage/hpe-openstack-docs/tree/main/hpe-alletra-mp-rhoso18">GitHub repo</a></li>
+<li>iSCSI: multipathing strongly recommended.</li>
+<li>FC: zoning between initiators and storage ports.</li>
+<li>WSAPI server must be enabled.</li>
+</ul>
+<h2 id="storage-requirements">Storage Requirements</h2>
+<ul>
+<li>At least one Common Provisioning Group (CPG).</li>
+<li>Licenses for Peer Persistence and replication (if used).</li>
 </ul>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../rhosp17/" class="btn btn-neutral float-left" title="RHOSP 17 (3PAR/Primera/Alletra 9000)"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../../best-practices-guide/" class="btn btn-neutral float-right" title="Best Practices Guide">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../overview/" class="btn btn-neutral float-left" title="Overview"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../supported-operations/" class="btn btn-neutral float-right" title="Supported Operations">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -183,10 +187,10 @@
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../rhosp17/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../overview/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../../best-practices-guide/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../supported-operations/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>

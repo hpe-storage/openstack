@@ -5,15 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="../../img/favicon.ico" />
-    <title>Extra Specs & QoS - HPE OpenStack Drivers</title>
+    <title>FC / iSCSI Configuration - HPE OpenStack Drivers</title>
     <link rel="stylesheet" href="../../css/theme.css" />
     <link rel="stylesheet" href="../../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Extra Specs \u0026 QoS";
-        var mkdocs_page_input_path = "alletra-3par-primera/extra-specs-qos.md";
+        var mkdocs_page_name = "FC / iSCSI Configuration";
+        var mkdocs_page_input_path = "alletra-primera-3par/fc-iscsi-configuration.md";
         var mkdocs_page_url = null;
       </script>
     
@@ -45,7 +45,7 @@
               </ul>
               <p class="caption"><span class="caption-text">Cinder Driver</span></p>
               <ul class="current">
-                  <li class="toctree-l1 current"><a class="reference internal current" >Alletra MP / 3PAR / Primera</a>
+                  <li class="toctree-l1 current"><a class="reference internal current" >Alletra MP / Primera / 3PAR</a>
     <ul class="current">
                 <li class="toctree-l2"><a class="reference internal" href="../overview/">Overview</a>
                 </li>
@@ -55,15 +55,17 @@
                 </li>
                 <li class="toctree-l2"><a class="reference internal" href="../installation-enabling/">Installation & Enabling</a>
                 </li>
-                <li class="toctree-l2"><a class="reference internal" href="../fc-iscsi-configuration/">FC / iSCSI Configuration</a>
-                </li>
-                <li class="toctree-l2 current"><a class="reference internal current" href="#">Extra Specs & QoS</a>
+                <li class="toctree-l2 current"><a class="reference internal current" href="#">FC / iSCSI Configuration</a>
     <ul class="current">
-    <li class="toctree-l3"><a class="reference internal" href="#common-extra-specs">Common Extra-Specs</a>
+    <li class="toctree-l3"><a class="reference internal" href="#fibre-channel">Fibre Channel</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#qos">QoS</a>
+    <li class="toctree-l3"><a class="reference internal" href="#iscsi">iSCSI</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#notes">Notes</a>
     </li>
     </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../extra-specs-qos/">Extra Specs & QoS</a>
                 </li>
                 <li class="toctree-l2"><a class="reference internal" >Advanced Features</a>
     <ul>
@@ -75,11 +77,25 @@
                 </li>
     </ul>
                 </li>
+                <li class="toctree-l2"><a class="reference internal" >RHOSP Deployment Guides</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../rhosp-deployment-guides/rhosp18/">RHOSP 18</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../rhosp-deployment-guides/rhosp17/">RHOSP 17</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Supportability</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../supportability/overview/">Overview</a>
+                </li>
+    </ul>
+                </li>
     </ul>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" >Nimble / Alletra 6k</a>
     <ul>
-                <li class="toctree-l2"><a class="reference internal" href="../../nimble-alletra6k/overview-compatibility/">Overview & Compatibility</a>
+                <li class="toctree-l2"><a class="reference internal" href="../../nimble-alletra6k/overview/">Overview</a>
                 </li>
                 <li class="toctree-l2"><a class="reference internal" href="../../nimble-alletra6k/supported-operations/">Supported Operations</a>
                 </li>
@@ -92,14 +108,6 @@
                 <li class="toctree-l2"><a class="reference internal" href="../../nimble-alletra6k/multipathing/">Multipathing</a>
                 </li>
                 <li class="toctree-l2"><a class="reference internal" href="../../nimble-alletra6k/consistency-group-replication/">Consistency Group Replication</a>
-                </li>
-    </ul>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" >RHOSP Deployment Guides</a>
-    <ul>
-                <li class="toctree-l2"><a class="reference internal" href="../../rhosp-deployment-guides/rhosp17/">RHOSP 17 (3PAR/Primera/Alletra 9000)</a>
-                </li>
-                <li class="toctree-l2"><a class="reference internal" href="../../rhosp-deployment-guides/rhosp18/">RHOSP 18 (Alletra MP)</a>
                 </li>
     </ul>
                   </li>
@@ -121,8 +129,8 @@
   <ul class="wy-breadcrumbs">
     <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
           <li class="breadcrumb-item">Cinder Driver</li>
-          <li class="breadcrumb-item">Alletra MP / 3PAR / Primera</li>
-      <li class="breadcrumb-item active">Extra Specs & QoS</li>
+          <li class="breadcrumb-item">Alletra MP / Primera / 3PAR</li>
+      <li class="breadcrumb-item active">FC / iSCSI Configuration</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -131,26 +139,34 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="extra-specs-qos">Extra Specs &amp; QoS</h1>
-<p>HPE drivers support <code>extra-specs</code> to control volume characteristics.</p>
-<h2 id="common-extra-specs">Common Extra-Specs</h2>
+                <h1 id="fc-iscsi-configuration">FC / iSCSI Configuration</h1>
+<h2 id="fibre-channel">Fibre Channel</h2>
 <ul>
-<li><code>hpe3par:cpg=&lt;cpg-name&gt;</code></li>
-<li><code>hpe3par:flash_cache=true|false</code></li>
-<li><code>hpe3par:compression=true|false</code></li>
-<li><code>hpe3par:qos=&lt;qos-id&gt;</code></li>
+<li>Ensure proper zoning between hosts and array ports.</li>
+<li>Mask volumes using WWNs.</li>
 </ul>
-<h2 id="qos">QoS</h2>
+<h2 id="iscsi">iSCSI</h2>
 <ul>
-<li>Define QoS rules in the array.</li>
-<li>Map volume types to QoS profiles via extra-specs.</li>
+<li>Configure multipathd.</li>
+<li>Ensure initiators are registered on the array.</li>
+<li>Example config snippet in <code>/etc/multipath.conf</code>:
+  <code>ini
+  defaults {
+      user_friendly_names yes
+      find_multipaths yes
+  }</code></li>
+</ul>
+<h2 id="notes">Notes</h2>
+<ul>
+<li>Use CHAP for authentication in iSCSI.</li>
+<li>Multipathing ensures resiliency.</li>
 </ul>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../fc-iscsi-configuration/" class="btn btn-neutral float-left" title="FC / iSCSI Configuration"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../advanced-features/nsp-fc-bootable/" class="btn btn-neutral float-right" title="NSP for FC Bootable Volumes">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../installation-enabling/" class="btn btn-neutral float-left" title="Installation & Enabling"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../extra-specs-qos/" class="btn btn-neutral float-right" title="Extra Specs & QoS">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -173,10 +189,10 @@
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../fc-iscsi-configuration/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../installation-enabling/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../advanced-features/nsp-fc-bootable/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../extra-specs-qos/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
