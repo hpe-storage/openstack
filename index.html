@@ -5,14 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="description" content="None" />
       <link rel="shortcut icon" href="img/favicon.ico" />
-    <title>My Docs</title>
+    <title>HPE OpenStack Drivers</title>
     <link rel="stylesheet" href="css/theme.css" />
     <link rel="stylesheet" href="css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
     
       <script>
         // Current page data
-        var mkdocs_page_name = "OpenStack";
+        var mkdocs_page_name = "Home";
         var mkdocs_page_input_path = "index.md";
         var mkdocs_page_url = null;
       </script>
@@ -30,7 +30,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
     <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
-          <a href="." class="icon icon-home"> My Docs
+          <a href="." class="icon icon-home"> HPE OpenStack Drivers
         </a><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
       <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
@@ -40,26 +40,67 @@
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-                <li class="toctree-l1 current"><a class="reference internal current" href="#">OpenStack</a>
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Home</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#community-openstack">Community OpenStack</a>
-        <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#alletra-mp">Alletra MP</a>
-    </li>
-        </ul>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#rhosp">RHOSP</a>
-        <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#rhosp-18">RHOSP 18</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#rhosp-17">RHOSP 17</a>
-    </li>
-        </ul>
-    </li>
     </ul>
                 </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Cinder Driver</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" >Alletra MP / 3PAR / Primera</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="alletra-3par-primera/overview/">Overview</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="alletra-3par-primera/system-requirements/">System Requirements</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="alletra-3par-primera/supported-operations/">Supported Operations</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="alletra-3par-primera/installation-enabling/">Installation & Enabling</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="alletra-3par-primera/fc-iscsi-configuration/">FC / iSCSI Configuration</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="alletra-3par-primera/extra-specs-qos/">Extra Specs & QoS</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Advanced Features</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="alletra-3par-primera/advanced-features/nsp-fc-bootable/">NSP for FC Bootable Volumes</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="alletra-3par-primera/advanced-features/peer-persistence/">Peer Persistence</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="alletra-3par-primera/advanced-features/duplicate-fqdn/">Duplicate FQDN Support</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Nimble / Alletra 6k</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="nimble-alletra6k/overview-compatibility/">Overview & Compatibility</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="nimble-alletra6k/supported-operations/">Supported Operations</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="nimble-alletra6k/configuration/">Configuration</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="nimble-alletra6k/extra-spec-options/">Extra Spec Options</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="nimble-alletra6k/configuration-options/">Configuration Options</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="nimble-alletra6k/multipathing/">Multipathing</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="nimble-alletra6k/consistency-group-replication/">Consistency Group Replication</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >RHOSP Deployment Guides</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="rhosp-deployment-guides/rhosp17/">RHOSP 17 (3PAR/Primera/Alletra 9000)</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="rhosp-deployment-guides/rhosp18/">RHOSP 18 (Alletra MP)</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="best-practices-guide/">Best Practices Guide</a>
+                  </li>
               </ul>
       </div>
     </div>
@@ -68,14 +109,14 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
       <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href=".">My Docs</a>
+          <a href=".">HPE OpenStack Drivers</a>
         
       </nav>
       <div class="wy-nav-content">
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="." class="icon icon-home" aria-label="Docs"></a></li>
-      <li class="breadcrumb-item active">OpenStack</li>
+      <li class="breadcrumb-item active">Home</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -84,20 +125,20 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="openstack">OpenStack</h1>
-<h2 id="overview">Overview</h2>
-<p>HPE has developed the HPE Block Storage Drivers, which support the OpenStack technology across both iSCSI and Fibre Channel (FC) protocols</p>
-<h2 id="community-openstack">Community OpenStack</h2>
-<h3 id="alletra-mp">Alletra MP</h3>
-<p>Alletra MP family <a href="https://docs.openstack.org/cinder/latest/configuration/block-storage/drivers/hpe-3par-driver.html">docs here</a></p>
-<h2 id="rhosp">RHOSP</h2>
-<h3 id="rhosp-18">RHOSP 18</h3>
-<p>Deployment guide <a href="https://github.com/hpe-storage/hpe-openstack-docs/tree/main/hpe-alletra-mp-rhoso18">here</a></p>
-<h3 id="rhosp-17">RHOSP 17</h3>
-<p>Deployment guide <a href="https://github.com/hpe-storage/hpe-3par-cinder-rhosp17">here</a></p>
+                <h1 id="hpe-openstack-cinder-drivers">HPE OpenStack Cinder Drivers</h1>
+<p>Welcome to the documentation for <strong>HPE OpenStack Block Storage (Cinder) drivers</strong>.</p>
+<p>This site covers:
+- <strong>Alletra MP / Primera / 3PAR drivers</strong>
+- <strong>Nimble / Alletra 6k drivers</strong>
+- <strong>RHOSP deployment guides (17 and 18)</strong>
+- <strong>Best Practices for HPE storage in OpenStack</strong></p>
+<p>These drivers allow seamless integration of HPE storage systems with OpenStack Block Storage.</p>
               
             </div>
           </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="alletra-3par-primera/overview/" class="btn btn-neutral float-right" title="Overview">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
 
   <hr/>
 
@@ -120,6 +161,8 @@
     
     
     
+      <span><a href="alletra-3par-primera/overview/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
   </span>
 </div>
     <script src="js/jquery-3.6.0.min.js"></script>
@@ -138,5 +181,5 @@
 
 <!--
 MkDocs version : 1.6.1
-Build Date UTC : 2025-09-05 09:43:19.432228+00:00
+Build Date UTC : 2025-09-05 12:01:27.975993+00:00
 -->
