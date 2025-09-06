@@ -135,14 +135,71 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="rhosp-17-deployment-guide">RHOSP 17 Deployment Guide</h1>
-<p><strong>Prerequisites</strong></p>
+<h1 id="prerequisites"><strong>Prerequisites</strong></h1>
+<h1 id="_1"></h1>
+<h1 id="-rhosp-17-installed">- RHOSP 17 installed</h1>
+<h1 id="-hpe-storage-alletra-9000-primera-reachable">- HPE storage (Alletra 9000 / Primera) reachable</h1>
+<h1 id="-required-packages-installed">- Required packages installed</h1>
+<h1 id="_2"></h1>
+<h1 id="deployment-steps"><strong>Deployment Steps</strong></h1>
+<h1 id="_3"></h1>
+<h1 id="the-details-steps-are-available-in-this-github-page">The details steps are available in this <a href="https://github.com/hpe-storage/hpe-3par-cinder-rhosp17">GitHub page</a></h1>
+<h2 id="overview">Overview</h2>
+<p>This page provides detailed steps on how to enable the containerization of HPE 3PAR, Primera and Alletra 9000 Cinder driver on top of the OSP Cinder images.
+It also contains steps to deploy &amp; configure HPE 3PAR family backends for RHOSP17.1.</p>
+<h2 id="prerequisites_1">Prerequisites</h2>
 <ul>
-<li>RHOSP 17 installed</li>
-<li>HPE storage (Alletra 9000 / Primera) reachable</li>
-<li>Required packages installed</li>
+<li>Red Hat OpenStack Platform 17.1 with RHEL 9.2.</li>
+<li>Array FW:</li>
+<li>HPE 3PAR array 3.3.1 or higher</li>
+<li>HPE Primera array 4.2 or higher</li>
+<li>HPE Alletra 9000 array 9.4 or higher</li>
 </ul>
-<p><strong>Deployment Steps</strong></p>
-<p>The details steps are available in this <a href="https://github.com/hpe-storage/hpe-3par-cinder-rhosp17">GitHub page</a></p>
+<h2 id="steps">Steps</h2>
+<h3 id="1-prepare-the-environment-files-for-hpe-3par-cinder-volume-container-and-cinder-backend">1.  Prepare the Environment Files for HPE 3PAR cinder-volume container and cinder backend</h3>
+<h4 id="11-environment-file-for-cinder-volume-container">1.1 Environment File for cinder-volume container</h4>
+<p>To use HPE 3PAR/Primera/Alletra 9000 hardware as a Block Storage back end, cinder-volume container having python-3parclient needs to be deployed.</p>
+<p>Procedure</p>
+<p>Create a new container images file for your overcloud:</p>
+<pre><code>openstack tripleo container image prepare default \
+    --local-push-destination \
+    --output-env-file containers-prepare-parameter-hpe.yaml
+</code></pre>
+<p>Sample containers-prepare-parameter-hpe.yaml file is available in <a href="https://github.com/hpe-storage/hpe-3par-cinder-rhosp17/blob/master/templates">templates</a> folder for reference.</p>
+<p>Please generate a fresh containers-prepare-parameter.yaml file, and modify it as per deployment. </p>
+<p>In containers-prepare-parameter.yaml file, the overcloud tag and cinder-volume image tag are currently set to "17.1" which refers to the latest version. If customers want to deploy other versions, those values need to be changed to their desired choice. Both versions need to be the same value.</p>
+<p>Kindly refer Red Hat documentation <a href="https://access.redhat.com/documentation/en-us/red_hat_openstack_platform/17.1/html-single/installing_and_managing_red_hat_openstack_platform_with_director/index#proc_deploying-a-vendor-plugin_preparing-for-director-installation">here</a></p>
+<p>When director deploys the overcloud, the overcloud uses the HPE container image instead of the standard container image.</p>
+<h4 id="12-environment-file-for-cinder-backend">1.2 Environment File for cinder backend</h4>
+<p>The environment file is an OSP director environment file. The environment file contains the settings for each backend you want to define.</p>
+<p>Create the environment file “cinder-hpe-primera-[iscsi|fc].yaml” under /home/stack/templates/ with below parameters and other backend details.</p>
+<pre><code>parameter_defaults:
+  CinderEnableIscsiBackend: false
+  ControllerExtraConfig:
+</code></pre>
+<p>Sample files for both iSCSI and FC backends are available in <a href="https://github.com/hpe-storage/hpe-3par-cinder-rhosp17/blob/master/templates">templates</a> folder for reference.</p>
+<h4 id="additional-help">Additional Help</h4>
+<p>For further details of HPE 3PAR cinder driver, kindly refer documentation <a href="https://docs.openstack.org/cinder/wallaby/configuration/block-storage/drivers/hpe-3par-driver.html">here</a></p>
+<h3 id="2-deploy-the-overcloud-and-configured-backends">2.  Deploy the overcloud and configured backends</h3>
+<p>After creating <code>cinder-hpe-primera-[iscsi|fc].yaml</code> file with appropriate backends, deploy the backend configuration by running the openstack overcloud deploy command using the templates option.
+Use the <code>-e</code> option to include the environment file <code>cinder-hpe-primera-[iscsi|fc].yaml</code>.</p>
+<p>The order of the environment files (.yaml) is important as the parameters and resources defined in subsequent environment files take precedence.</p>
+<pre><code>openstack overcloud deploy --templates /usr/share/openstack-tripleo-heat-templates \
+    -e /home/stack/templates/node-info.yaml \
+    -e /home/stack/containers-prepare-parameter-hpe.yaml \
+    -e /home/stack/templates/cinder-hpe-primera-[iscsi|fc].yaml \
+    --ntp-server &lt;ntp_server_ip&gt; \
+    --debug
+</code></pre>
+<h3 id="3-verify-the-configured-changes">3.  Verify the configured changes</h3>
+<ul>
+<li>
+<p>Run "openstack volume service list" on the overcloud, and verify the 3PAR backend is up</p>
+</li>
+<li>
+<p>Verify a volume can be created</p>
+</li>
+</ul>
               
             </div>
           </div><footer>
