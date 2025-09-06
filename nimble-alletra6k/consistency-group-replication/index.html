@@ -135,10 +135,8 @@
               
                 <h1 id="consistency-group-replication">Consistency Group Replication</h1>
 <p>To enable consistency group replication, follow below steps:</p>
-<ol>
-<li>Add <code>replication_device</code> to storage backend settings in <code>cinder.conf</code>, then
-restart Cinder Volume service.</li>
-</ol>
+<p>1] Add <code>replication_device</code> to storage backend settings in <code>cinder.conf</code>, then
+restart Cinder Volume service.</p>
 <p>Example of <code>cinder.conf</code> for volume replications:</p>
 <pre><code>[nimble]
 san_ip = xxx.xxx.xxx.xxx
@@ -168,54 +166,38 @@ replication_device = backend_id:nimblevsagroup2,
 <p>days='all'</p>
 <p>replicate_every:1</p>
 <p>alert_threshold:'24:00'</p>
-<ol>
-<li>Create a volume type with properties <code>replication_enabled='&lt;is&gt; True'</code>
-and <code>consistent_group_snapshot_enabled='&lt;is&gt; True'</code></li>
-</ol>
+<p>2] Create a volume type with properties <code>replication_enabled='&lt;is&gt; True'</code>
+and <code>consistent_group_snapshot_enabled='&lt;is&gt; True'</code></p>
 <pre><code>$ cinder type-create nimble
 $ cinder type-key nimble set volume_backend_name='nimble'
 $ cinder type-key nimble set replication_enabled='&lt;is&gt; True'
 $ cinder type-key nimble set consistent_group_snapshot_enabled='&lt;is&gt; True'
 </code></pre>
-<ol>
-<li>Create a consistency group type with properties
-<code>consistent_group_snapshot_enabled='&lt;is&gt; True'</code>
-and <code>consistent_group_replication_enabled='&lt;is&gt; True'</code>.</li>
-</ol>
+<p>3] Create a consistency group type with properties</p>
+<p><code>consistent_group_snapshot_enabled='&lt;is&gt; True'</code>
+and <code>consistent_group_replication_enabled='&lt;is&gt; True'</code>.</p>
 <pre><code>$ cinder --os-volume-api-version 3.38 group-type-create repl_type
 $ cinder --os-volume-api-version 3.38 group-type-key repl_type set
 consistent_group_snapshot_enabled='&lt;is&gt; True' consistent_group_replication_enabled='&lt;is&gt; True'
 </code></pre>
-<ol>
-<li>Create a group type with volume types support replication.</li>
-</ol>
+<p>4] Create a group type with volume types support replication.</p>
 <pre><code>$ cinder --os-volume-api-version 3.38 group-create --name grp_1 repl_type nimble
 </code></pre>
-<ol>
-<li>Create volume in the consistency group.</li>
-</ol>
+<p>5] Create volume in the consistency group.</p>
 <pre><code>$ cinder --os-volume-api-version 3.38 create --volume-type nimble --group-id {grp_1-id}
 --name {volume-name} {size}
 </code></pre>
-<ol>
-<li>Enable consistency group replication.</li>
-</ol>
+<p>6] Enable consistency group replication.</p>
 <pre><code>$ cinder --os-volume-api-version 3.38 group-enable-replication grp_1
 </code></pre>
-<ol>
-<li>Disable consistency group replication.</li>
-</ol>
+<p>7] Disable consistency group replication.</p>
 <pre><code>$ cinder --os-volume-api-version 3.38 group-disable-replication grp_1
 </code></pre>
-<ol>
-<li>Failover consistency group replication.</li>
-</ol>
+<p>8] Failover consistency group replication.</p>
 <pre><code>$ cinder --os-volume-api-version 3.38 group-failover-replication
 --secondary-backend-id nimblevsagroup2 grp_1
 </code></pre>
-<ol>
-<li>Failback consistency group replication.</li>
-</ol>
+<p>9] Failback consistency group replication.</p>
 <pre><code>$ cinder --os-volume-api-version 3.38 group-failover-replication
 --secondary-backend-id default grp_1
 </code></pre>
