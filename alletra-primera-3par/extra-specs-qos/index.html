@@ -134,18 +134,108 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="extra-specs-qos">Extra Specs &amp; QoS</h1>
-<p>HPE drivers support <code>extra-specs</code> to control volume characteristics.</p>
-<p><strong>Common Extra-Specs</strong></p>
+<p>Volume type support for both HPE 3PAR drivers includes the ability to set the following capabilities in the OpenStack Block Storage API <strong>cinder.api.contrib.types_extra_specs</strong> volume type extra specs extension module:</p>
 <ul>
-<li><code>hpe3par:cpg=&lt;cpg-name&gt;</code></li>
-<li><code>hpe3par:flash_cache=true|false</code></li>
-<li><code>hpe3par:compression=true|false</code></li>
-<li><code>hpe3par:qos=&lt;qos-id&gt;</code></li>
+<li>hpe3par:snap_cpg</li>
+<li>hpe3par:provisioning</li>
+<li>hpe3par:persona</li>
+<li>hpe3par:vvs</li>
+<li>hpe3par:flash_cache</li>
+<li>hpe3par:compression</li>
 </ul>
-<p><strong>QoS</strong></p>
+<p>To work with the default filter scheduler, the key values are case sensitive and scoped with <strong>hpe3par:</strong>. For information about how to set the key-value pairs and associate them with a volume type, run the following command:</p>
+<pre><code>openstack help volume type
+</code></pre>
+<p>Note</p>
+<p>Volumes that are cloned only support the extra specs keys cpg, snap_cpg, provisioning and vvs. The others are ignored. In addition the comments section of the cloned volume in the HPE 3PAR / Primera / Alletra 9k / Alletra MP array is not populated.</p>
+<p>If volume types are not used or a particular key is not set for a volume type, the following defaults are used:</p>
 <ul>
-<li>Define QoS rules in the array.</li>
-<li>Map volume types to QoS profiles via extra-specs.</li>
+<li>hpe3par:cpg - Defaults to the hpe3par_cpg setting in the cinder.conf file.</li>
+<li>hpe3par:snap_cpg - Defaults to the hpe3par_snap setting in the cinder.conf file. If hpe3par_snap is not set, it defaults to the hpe3par_cpg setting.</li>
+<li>hpe3par:provisioning - Defaults to thin provisioning, the valid values are thin, full, and dedup.</li>
+<li>hpe3par:persona - Defaults to the 2 - Generic-ALUA persona. The valid values are:</li>
+<li>1 - Generic</li>
+<li>2 - Generic-ALUA</li>
+<li>3 - Generic-legacy</li>
+<li>4 - HPUX-legacy</li>
+<li>5 - AIX-legacy</li>
+<li>6 - EGENERA</li>
+<li>7 - ONTAP-legacy</li>
+<li>8 - VMware</li>
+<li>9 - OpenVMS</li>
+<li>10 - HPUX</li>
+<li>11 - WindowsServer</li>
+<li>hpe3par:flash_cache - Defaults to false, the valid values are true and false.</li>
+</ul>
+<p>QoS support for both HPE 3PAR drivers includes the ability to set the following capabilities in the OpenStack Block Storage API <strong>cinder.api.contrib.qos_specs_manage qos specs</strong> extension module:</p>
+<ul>
+<li>minBWS</li>
+<li>maxBWS</li>
+<li>minIOPS</li>
+<li>maxIOPS</li>
+<li>latency</li>
+<li>priority</li>
+</ul>
+<p>The qos keys above no longer require to be scoped but must be created and associated to a volume type. For information about how to set the key-value pairs and associate them with a volume type, run the following commands:</p>
+<pre><code>openstack help volume qos
+</code></pre>
+<p>The following keys require that the HPE 3PAR/Primera/Alletra 9k/ Alletra MP array has a Priority Optimization enabled.</p>
+<ul>
+<li>hpe3par:vvs</li>
+</ul>
+<p>The virtual volume set name that has been predefined by the Administrator with quality of service (QoS) rules associated to it. If you specify extra_specs hpe3par:vvs, the qos_specs minIOPS, maxIOPS, minBWS, and maxBWS settings are ignored.</p>
+<ul>
+<li>minBWS</li>
+</ul>
+<p>The QoS I/O issue bandwidth minimum goal in MBs. If not set, the I/O issue bandwidth rate has no minimum goal.</p>
+<ul>
+<li>maxBWS</li>
+</ul>
+<p>The QoS I/O issue bandwidth rate limit in MBs. If not set, the I/O issue bandwidth rate has no limit.</p>
+<ul>
+<li>minIOPS</li>
+</ul>
+<p>The QoS I/O issue count minimum goal. If not set, the I/O issue count has no minimum goal.</p>
+<ul>
+<li>maxIOPS</li>
+</ul>
+<p>The QoS I/O issue count rate limit. If not set, the I/O issue count rate has no limit.</p>
+<ul>
+<li>latency</li>
+</ul>
+<p>The latency goal in milliseconds.</p>
+<ul>
+<li>priority</li>
+</ul>
+<p>The priority of the QoS rule over other rules. If not set, the priority is normal, valid values are low, normal and high.</p>
+<p>Note</p>
+<p>Since the Icehouse release, minIOPS and maxIOPS must be used together to set I/O limits. Similarly, minBWS and maxBWS must be used together. If only one is set the other will be set to the same value.</p>
+<p>The following key requires that the HPE 3PAR/Primera/Alletra 9k/Alletra MP array has an Adaptive Flash Cache enabled.</p>
+<ul>
+<li>
+<p>hpe3par:flash_cache - The flash-cache policy, which can be turned on and off by setting the value to true or false.</p>
+</li>
+<li>
+<p>hpe3par:compression - The volume compression, which can be turned on and off by setting the value to true or false.</p>
+</li>
+</ul>
+<p>Other restrictions and considerations for <strong>hpe3par:compression</strong>:</p>
+<ul>
+<li>
+<p>For a compressed volume, minimum volume size needed is 16 GB; otherwise resulting volume will be created successfully but will not be a compressed volume.</p>
+</li>
+<li>
+<p>A full provisioned volume cannot be compressed, if a compression is enabled and provisioning type requested is full, the resulting volume defaults to thinly provisioned compressed volume.</p>
+</li>
+<li>
+<p>While creating volume on HPE Primera/Alletra 9k/Alletra MP storage system, only below two combinations are supported. If any other combination is used, then volume is not created.</p>
+</li>
+<li>
+<p>thin volume: provisioning = thin and compression = false</p>
+</li>
+<li>
+<p>deco volume: provisioning = dedup and compression = true</p>
+</li>
 </ul>
               
             </div>
