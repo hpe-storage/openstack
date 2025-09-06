@@ -137,14 +137,14 @@
 <p>The HPE Nimble / Alletra 6000 driver integrates with OpenStack Cinder
 to provide block storage over iSCSI and FC using NimbleISCSIDriver
 and NimbleFCDriver</p>
-<p><strong>Supported Backends</strong>
-- Nimble OS 5.3 or later
-- Alletra 6000 OS 6.0 or later</p>
+<p><strong>Supported Backends</strong></p>
+<ul>
+<li>Nimble OS 5.3 or later</li>
+<li>Alletra 6000 OS 6.0 or later</li>
+</ul>
 <p>Nimble and Alletra 6000 Storage Cinder drivers do not support port binding
 with multiple interfaces on the same subnet due to existing limitation in
-os-brick. This is partially referenced in the bug
-https://bugs.launchpad.net/os-brick/+bug/1722432 but does not resolve for
-multiple software iscsi ifaces.</p>
+os-brick.</p>
               
             </div>
           </div><footer>

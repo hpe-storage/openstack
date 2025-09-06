@@ -134,18 +134,59 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="configuration">Configuration</h1>
-<p>Example <code>cinder.conf</code>:</p>
-<pre><code class="language-ini">[DEFAULT]
-enabled_backends = nimble
-
-[nimble]
-volume_driver = cinder.volume.drivers.nimble.NimbleISCSIDriver
-san_ip = &lt;array-ip&gt;
-san_login = &lt;user&gt;
-san_password = &lt;pass&gt;
-nimble_pool_name = default
+<p>Update the file <code>/etc/cinder/cinder.conf</code> with the given configuration.
+Note: These parameters apply to Alletra 6k Storage as well.</p>
+<p>In case of a basic (single back-end) configuration, add the parameters
+within the <code>[default]</code> section as follows.</p>
+<pre><code>[default]
+san_ip = NIMBLE_MGMT_IP
+san_login = NIMBLE_USER
+san_password = NIMBLE_PASSWORD
+use_multipath_for_image_xfer = True
+volume_driver = NIMBLE_VOLUME_DRIVER
+san_thin_provision = True
 </code></pre>
-<p>Restart Cinder after configuration.</p>
+<p>In case of multiple back-end configuration, for example, configuration
+which supports multiple Nimble Storage arrays or a single Nimble Storage
+array with arrays from other vendors, use the following parameters.</p>
+<pre><code>[default]
+enabled_backends = Nimble-Cinder
+
+[Nimble-Cinder]
+san_ip = NIMBLE_MGMT_IP
+san_login = NIMBLE_USER
+san_password = NIMBLE_PASSWORD
+use_multipath_for_image_xfer = True
+volume_driver = NIMBLE_VOLUME_DRIVER
+volume_backend_name = NIMBLE_BACKEND_NAME
+</code></pre>
+<p>In case of multiple back-end configuration, Nimble Storage volume type
+is created and associated with a back-end name as follows.</p>
+<p>Note:</p>
+<p>Single back-end configuration users do not need to create the volume type.</p>
+<pre><code>   $ openstack volume type create NIMBLE_VOLUME_TYPE
+   $ openstack volume type set --property volume_backend_name=NIMBLE_BACKEND_NAME NIMBLE_VOLUME_TYPE
+</code></pre>
+<p>This section explains the variables used above:</p>
+<p><strong>NIMBLE_MGMT_IP</strong></p>
+<p>Management IP address of Nimble/Alletra 6k Storage array/group.</p>
+<p><strong>NIMBLE_USER</strong></p>
+<p>Nimble/Alletra 6k Storage account login with minimum <code>power user</code>
+  (admin) privilege if RBAC is used.</p>
+<p><strong>NIMBLE_PASSWORD</strong></p>
+<p>Password of the admin account for Nimble/Alletra 6k array.</p>
+<p><strong>NIMBLE_VOLUME_DRIVER</strong></p>
+<p>Use either cinder.volume.drivers.hpe.nimble.NimbleISCSIDriver for iSCSI or
+  cinder.volume.drivers.hpe.nimble.NimbleFCDriver for Fibre Channel.</p>
+<p><strong>NIMBLE_BACKEND_NAME</strong></p>
+<p>A volume back-end name which is specified in the <code>cinder.conf</code> file.
+  This is also used while assigning a back-end name to the Nimble volume type.</p>
+<p><strong>NIMBLE_VOLUME_TYPE</strong></p>
+<p>The Nimble volume-type which is created from the CLI and associated with
+  <code>NIMBLE_BACKEND_NAME</code>.</p>
+<p>Note:</p>
+<p>Restart the <code>cinder-api</code>, <code>cinder-scheduler</code>, and <code>cinder-volume</code>
+services after updating the <code>cinder.conf</code> file.</p>
               
             </div>
           </div><footer>
