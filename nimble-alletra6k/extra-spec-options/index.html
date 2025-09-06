@@ -134,11 +134,29 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="extra-spec-options">Extra Spec Options</h1>
-<ul>
-<li><code>nimble:encryption = true|false</code></li>
-<li><code>nimble:dedupe = true|false</code></li>
-<li><code>nimble:multi_initiator = true|false</code></li>
-</ul>
+<p>The Nimble volume driver also supports the following extra spec options:</p>
+<p><strong>nimble:encryption=yes</strong></p>
+<p>Used to enable encryption for a volume-type.</p>
+<p><strong>nimble:perfpol-name=PERF_POL_NAME</strong></p>
+<p>PERF_POL_NAME is the name of a performance policy which exists on the
+  Nimble/Alletra 6k array and should be enabled for every volume in a
+  volume type.</p>
+<p>Note:</p>
+<p>When upgrading to OpenStack deployment to Victoria or later,
+do unset <code>nimble:multi-initiator</code> extra-spec and set <code>multiattach='&lt;is&gt; True'</code>.</p>
+<p><strong>nimble:dedupe=true</strong></p>
+<p>Used to enable dedupe support for a volume-type.</p>
+<p><strong>nimble:iops-limit=IOPS_LIMIT</strong></p>
+<p>Used to set the IOPS_LIMIT between 256 and 4294967294 for all
+  volumes created for this volume-type.</p>
+<p><strong>nimble:folder=FOLDER_NAME</strong></p>
+<p>FOLDER_NAME is the name of the folder which exists on the Nimble/Alletra 6k
+  array and should be enabled for every volume in a volume type</p>
+<p>These extra-specs can be enabled by using the following command:</p>
+<pre><code>$ openstack volume type set --property KEY=VALUE VOLUME_TYPE
+</code></pre>
+<p><code>VOLUME_TYPE</code> is the Nimble volume type and <code>KEY</code> and <code>VALUE</code> are
+the options mentioned above.</p>
               
             </div>
           </div><footer>
