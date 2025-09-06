@@ -287,16 +287,40 @@ the HPE 3PAR Fibre Channel and iSCSI drivers.</p>
 <td>(List of String) List of the 3PAR/Primera/Alletra 9k/Alletra MP CPG(s) to use for volume creation</td>
 </tr>
 <tr>
-<td></td>
-<td></td>
+<td>hpe3par_cpg_snap = &lt;&gt;</td>
+<td>(String) The 3PAR/Primera/Alletra 9k/Alletra MP CPG to use for snapshots of volumes. If empty the userCPG will be used</td>
 </tr>
 <tr>
-<td></td>
-<td></td>
+<td>hpe3par_debug = False</td>
+<td>(Boolean) Enable HTTP debugging to 3PAR/Primera/Alletra 9k/Alletra MP</td>
 </tr>
 <tr>
-<td></td>
-<td></td>
+<td>hpe3par_iscsi_chap_enabled = False</td>
+<td>(Boolean) Enable CHAP authentication for iSCSI connections.</td>
+</tr>
+<tr>
+<td>hpe3par_iscsi_ips = []</td>
+<td>(List of String) List of target iSCSI addresses to use.</td>
+</tr>
+<tr>
+<td>hpe3par_password = &lt;&gt;</td>
+<td>(String) 3PAR/Primera/Alletra 9k/Alletra MP password for the user specified in hpe3par_username</td>
+</tr>
+<tr>
+<td>hpe3par_snapshot_expiration = &lt;&gt;</td>
+<td>(String) The time in hours when a snapshot expires and is deleted. This must be larger than expiration</td>
+</tr>
+<tr>
+<td>hpe3par_snapshot_retention = &lt;&gt;</td>
+<td>(String) The time in hours to retain a snapshot. You can’t delete it before this expires.</td>
+</tr>
+<tr>
+<td>hpe3par_target_nsp = &lt;&gt;</td>
+<td>(String) The nsp of 3PAR/Primera/Alletra 9k/Alletra MP backend to be used when: (1) multipath is not enabled in cinder.conf. (2) Fiber Channel Zone Manager is not used. (3) the backend is prezoned with this specific nsp only. For example if nsp is 2 1 2, the format of the option’s value is 2:1:2</td>
+</tr>
+<tr>
+<td>hpe3par_username = &lt;&gt;</td>
+<td>(String) 3PAR/Primera/Alletra 9k/Alletra MP username with the ‘edit’ role</td>
 </tr>
 </tbody>
 </table>
