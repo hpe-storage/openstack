@@ -135,12 +135,24 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="peer-persistence">Peer Persistence</h1>
-<p>HPE Peer Persistence provides:
-- Transparent failover between two arrays
-- Zero RPO (synchronous replication)
-- Continuous availability during site failures</p>
-<p>Enable replication and configure Peer Persistence in Cinder by setting:</p>
-<pre><code class="language-ini">replication_device = backend_id:remote_array, san_ip:&lt;ip&gt;, san_login:&lt;user&gt;, san_password:&lt;pass&gt;
+<p>Given 3PAR/Primera backend configured with replication setup, currently only Active/Passive replication is supported by 3PAR/Primera in OpenStack. When failover happens, nova does not support volume force-detach (from dead primary backend) / re-attach to secondary backend. Storage engineer’s manual intervention is required.</p>
+<p>To overcome above scenario, support for Peer Persistence is added. Given a system with Peer Persistence configured and replicated volume is created. When this volume is attached to an instance, vlun is created automatically in secondary backend, in addition to primary backend. So that when a failover happens, it is seamless.</p>
+<p>For Peer Persistence support, perform following steps: 1] enable multipath 2] set replication mode as “sync” 3] configure a quorum witness server</p>
+<p>Specify ip address of quorum witness server in <code>/etc/cinder/cinder.conf</code> [within backend section] as given below:</p>
+<pre><code>[3pariscsirep]
+hpe3par_api_url = http://10.50.3.7:8008/api/v1
+hpe3par_username = &lt;user_name&gt;
+hpe3par_password = &lt;password&gt;
+...
+&lt;other parameters&gt;
+...
+replication_device = backend_id:CSIM-EOS12_1611702,
+                     replication_mode:sync,
+                     quorum_witness_ip:10.50.3.192,
+                     hpe3par_api_url:http://10.50.3.22:8008/api/v1,
+                     ...
+                     &lt;other parameters&gt;
+                     ...
 </code></pre>
               
             </div>

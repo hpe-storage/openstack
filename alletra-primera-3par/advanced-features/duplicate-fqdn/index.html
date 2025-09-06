@@ -135,8 +135,13 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="duplicate-fqdn-support">Duplicate FQDN Support</h1>
-<p>When hosts share duplicate FQDNs, the driver supports unique hostnames
-by appending a suffix during host creation on the array.</p>
+<p>The 3PAR driver uses the FQDN of the node that is doing the attach as an unique identifier to map the volume.</p>
+<p>The problem is that the FQDN is not always unique, there are environments where the same FQDN can be found in different systems, and in those cases if both try to attach volumes the second system will fail.</p>
+<p>One example of this happening would be on a QA environment where you are creating VMs and they all have names like controller-0.localdomain and compute-0.localdomain.</p>
+<p>To support these kind of environments, the user can specify below flag in backend_defaults section or the specific cinder driver section of cinder.conf as follows:</p>
+<p><strong>unique_fqdn_network = False</strong></p>
+<p>When this flag is used, then during attach volume to instance, iscsi initiator name is used instead of FQDN.</p>
+<p>If above mentioned flag is not specified in cinder.conf, then its value is considered as True (by default) and FQDN is used (existing behavior).</p>
               
             </div>
           </div><footer>
