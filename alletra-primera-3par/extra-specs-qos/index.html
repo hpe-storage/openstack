@@ -221,10 +221,10 @@
 <p>The following key requires that the HPE 3PAR/Primera/Alletra 9k/Alletra MP array has an Adaptive Flash Cache enabled.</p>
 <ul>
 <li>
-<p>hpe3par:flash_cache - The flash-cache policy, which can be turned on and off by setting the value to true or false.</p>
+<p>hpe3par:flash_cache - The flash-cache policy, which can be turned on and off by setting the value to <strong>true</strong> or <strong>false</strong>.</p>
 </li>
 <li>
-<p>hpe3par:compression - The volume compression, which can be turned on and off by setting the value to true or false.</p>
+<p>hpe3par:compression - The volume compression, which can be turned on and off by setting the value to <strong>true</strong> or <strong>false</strong>.</p>
 </li>
 </ul>
 <p>Other restrictions and considerations for <strong>hpe3par:compression</strong>:</p>
@@ -238,12 +238,8 @@
 <li>
 <p>While creating volume on HPE Primera/Alletra 9k/Alletra MP storage system, only below two combinations are supported. If any other combination is used, then volume is not created.</p>
 </li>
-<li>
-<p>thin volume: provisioning = thin and compression = false</p>
-</li>
-<li>
-<p>deco volume: provisioning = dedup and compression = true</p>
-</li>
+<li>thin volume: provisioning = <strong>thin</strong> and compression = <strong>false</strong></li>
+<li>deco volume: provisioning = <strong>dedup</strong> and compression = <strong>true</strong></li>
 </ul>
               
             </div>
