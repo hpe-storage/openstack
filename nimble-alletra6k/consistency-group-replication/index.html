@@ -156,24 +156,22 @@ replication_device = backend_id:nimblevsagroup2,
 <li>Only one <code>replication_device</code> can be configured for each primary backend.</li>
 <li>Keys <code>backend_id</code>, <code>san_ip</code>, <code>san_login</code>, <code>san_password</code>, <code>schedule_name</code>
   and <code>downstream_partner</code> are mandatory.</li>
-<li>
-<p>Other parameters are optional (if not given, then default values
-  will be used):
-  period:1
-  period_unit:days
-  num_retain:10
-  num_retain_replica:1
-  at_time:'00:00'
-  until_time:'23:59'
-  days='all'
-  replicate_every:1
-  alert_threshold:'24:00'</p>
-</li>
-<li>
-<p>Create a volume type with properties <code>replication_enabled='&lt;is&gt; True'</code>
-and <code>consistent_group_snapshot_enabled='&lt;is&gt; True'</code></p>
-</li>
+<li>Other parameters are optional (if not given, then default values
+  will be used):</li>
 </ul>
+<p>period:1</p>
+<p>period_unit:days</p>
+<p>num_retain:10</p>
+<p>num_retain_replica:1</p>
+<p>at_time:'00:00'</p>
+<p>until_time:'23:59'</p>
+<p>days='all'</p>
+<p>replicate_every:1</p>
+<p>alert_threshold:'24:00'</p>
+<ol>
+<li>Create a volume type with properties <code>replication_enabled='&lt;is&gt; True'</code>
+and <code>consistent_group_snapshot_enabled='&lt;is&gt; True'</code></li>
+</ol>
 <pre><code>$ cinder type-create nimble
 $ cinder type-key nimble set volume_backend_name='nimble'
 $ cinder type-key nimble set replication_enabled='&lt;is&gt; True'
