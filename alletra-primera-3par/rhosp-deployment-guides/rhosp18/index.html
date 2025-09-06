@@ -134,32 +134,242 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="rhosp-18-deployment-guide-hpe-alletra-mp">RHOSP 18 Deployment Guide (HPE Alletra MP)</h1>
+                <h1 id="rhosp-18-deployment-guide">RHOSP 18 Deployment Guide</h1>
+<h1 id="prerequisites"><strong>Prerequisites</strong></h1>
+<h1 id="_1"></h1>
+<h1 id="-rhosp-18-installed">- RHOSP 18 installed</h1>
+<h1 id="-alletra-mp-reachable">- Alletra MP reachable</h1>
+<h1 id="-required-packages-installed">- Required packages installed</h1>
+<h1 id="_2"></h1>
+<h1 id="deployment-steps"><strong>Deployment Steps</strong></h1>
+<h1 id="_3"></h1>
+<h1 id="the-details-steps-are-available-in-this-github-page">The details steps are available in this <a href="https://github.com/hpe-storage/hpe-openstack-docs/tree/main/hpe-alletra-mp-rhoso18">GitHub page</a></h1>
+<p><strong>Overview</strong></p>
+<p>This guide shows how to configure and deploy the HPE Cinder driver in a <strong>Red Hat OpenStack Services on OpenShift (RHOSO) 18.0</strong> deployment. After reading this, you’ll be able to define the proper configuration and deploy single or multiple HPE Cinder back ends in a RHOSO cluster.</p>
+<p>For more information about RHOSO, please refer to its <a href="https://docs.redhat.com/en/documentation/red_hat_openstack_services_on_openshift/18.0/html/deploying_red_hat_openstack_services_on_openshift/index">documentation pages</a>.</p>
+<p>In Red Hat OpenStack Services on OpenShift 18.0, the HPE cinder volume drivers support the following dataplanes:
+* iSCSI
+* FibreChannel [certification pending]</p>
 <p><strong>Prerequisites</strong></p>
 <ul>
-<li>RHOSP 18 installed</li>
-<li>Alletra MP reachable</li>
-<li>Required packages installed</li>
+<li>Array FW:</li>
+<li>HPE 3PAR array 3.3.1 or higher</li>
+<li>HPE Primera array 4.2 or higher</li>
+<li>HPE Alletra 9000 array 9.4 or higher</li>
+<li>HPE Alletra MP B10000 array 10.4 or higher</li>
+<li>Deploy the RHOSO control plane on an OpenShift cluster configured with three master nodes and three worker nodes.</li>
+<li>RHOSO control plane where Cinder services will be installed.</li>
+<li>Ensure network connectivity between the storage backend, the Red Hat OpenShift cluster, and the Compute nodes.</li>
 </ul>
 <p><strong>Deployment Steps</strong></p>
-<ol>
-<li>Clone:</li>
-</ol>
-<p><code>git clone https://github.com/hpe-storage/hpe-openstack-docs.git
-   cd hpe-openstack-docs/hpe-alletra-mp-rhoso18</code></p>
-<ol>
-<li>
-<p>Edit environment files for your array.</p>
-</li>
-<li>
-<p>Deploy with:</p>
-</li>
-</ol>
-<p><code>openstack overcloud deploy -e hpe-alletra-mp.yaml</code></p>
-<p><strong>References</strong></p>
-<ul>
-<li><a href="https://github.com/hpe-storage/hpe-openstack-docs/tree/main/hpe-alletra-mp-rhoso18">GitHub repo</a></li>
-</ul>
+<p><strong>Prepare the OpenStack Control Plane CR</strong></p>
+<p>Install the OpenStack Operator for Red Hat OpenStack Services on OpenShift (RHOSO), create a RHOSO control plane on a Red Hat OpenShift Container Platform cluster, and use the OpenStack Operator to deploy a RHOSO data plane.</p>
+<p><strong>Use Certified HPE Cinder Volume Image</strong></p>
+<p>Red Hat requires that you utilize the Certified HPE Cinder Volume Image when deploying RHOSO18 with a HPE Storage array backend.</p>
+<p>This container can be found in <a href="https://catalog.redhat.com/software/containers/hpe3parcinder/openstack-cinder-volume-hpe3parcinder18-0/67f4da13dd71f939eb652d57?gs&amp;q=HPE">https://catalog.redhat.com/software/containers/hpe3parcinder/openstack-cinder-volume-hpe3parcinder18-0/67f4da13dd71f939eb652d57?gs&amp;q=HPE</a>.</p>
+<p>Ensure the certified image is added to the <code>openstackversion</code> CR. This is defined in the following YAML file (<code>openstack_version.yaml</code>):</p>
+<pre><code>apiVersion: core.openstack.org/v1beta1
+kind: OpenStackVersion
+metadata:
+  name: openstack
+spec:
+  customContainerImages:
+    cinderVolumeImages:
+      volume1: registry.connect.redhat.com/hpe3parcinder/openstack-cinder-volume-hpe3parcinder18-0:18.0
+</code></pre>
+<p>Save this file and update:</p>
+<pre><code>$ oc apply -f openstack-version.yaml
+</code></pre>
+<p><strong>Create a Secret file</strong></p>
+<p>It is necessary to create a secret file that will contain the access credential(s) for your backend HPE Storage Array(s) in your RHOSO deployment.</p>
+<p>In this following example file (<code>cinder-volume-alletra-iscsi-secret.yaml</code>) secrets are provided for one backend HPE Alletra Storage Array. You need to define a unique secret for each of your backends in case of multiple backend configuration.</p>
+<pre><code>apiVersion: v1
+kind: Secret
+metadata:
+  labels:
+    service: cinder
+    component: cinder-volume
+  name: cinder-volume-alletra-iscsi-secrets
+type: Opaque
+stringData:
+  alletra-iscsi: |
+    [alletra-iscsi]
+    hpe3par_api_url=https://&lt;your-storage-array-ip&gt;/api/v1
+    hpe3par_username=&lt;username&gt;
+    hpe3par_password=&lt;password&gt;
+    hpe3par_cpg=&lt;cpg-name&gt;
+    hpe3par_iscsi_ips=&lt;iscsi-ip1&gt;,&lt;iscsi-ip2&gt;
+    hpe3par_cpg_snap=&lt;snap-cpg-name&gt;
+    san_ip=&lt;your-storage-array-ip&gt;
+    san_login=&lt;username&gt;
+    san_password=&lt;password&gt;
+    [alletra-iscsi-1]
+    hpe3par_api_url=https://&lt;your-storage-array-ip&gt;/api/v1
+    hpe3par_username=&lt;username&gt;
+    hpe3par_password=&lt;password&gt;
+    hpe3par_cpg=&lt;cpg-name&gt;
+    hpe3par_iscsi_ips=&lt;iscsi-ip1&gt;,&lt;iscsi-ip2&gt;
+    hpe3par_cpg_snap=&lt;snap-cpg-name&gt;
+    san_ip=&lt;your-storage-array-ip&gt;
+    san_login=&lt;username&gt;
+    san_password=&lt;password&gt;
+</code></pre>
+<p>Save this file and apply:</p>
+<pre><code>$ oc apply -f cinder-volume-alletra-iscsi-secret.yaml
+</code></pre>
+<p><strong>Update the OpenStack Control Plane</strong></p>
+<p>To configure a single HPE Cinder backend, Open your OpenStackControlPlane CR file (<code>openstack_control_plane.yaml</code>), and add the following parameters to the cinder template. One can add multiple instances of backends in the following section:</p>
+<p><strong>iSCSI driver example:</strong></p>
+<pre><code>spec:
+      ...
+      cinder:
+        template:
+          cinderAPI:
+            ...
+          cinderScheduler:
+            ...
+          cinderBackup:
+            ...
+          cinderVolumes:
+            alletra-iscsi:
+              customServiceConfig: |
+                [DEFAULT]
+                enabled_backends=alletra-iscsi
+                [alletra-iscsi]
+                volume_driver=cinder.volume.drivers.hpe.hpe_3par_iscsi.HPE3PARISCSIDriver
+              customServiceConfigSecrets:
+              - cinder-volume-alletra-iscsi-secrets
+              networkAttachments:
+              - storage
+              replicas: 1
+              resources: {}
+            alletra-iscsi-1:
+              customServiceConfig: |
+                [DEFAULT]
+                enabled_backends=alletra-iscsi
+                [alletra-iscsi-1]
+                volume_driver=cinder.volume.drivers.hpe.hpe_3par_iscsi.HPE3PARISCSIDriver
+                volume_backend_name = alletra-iscsi-1
+              customServiceConfigSecrets:
+              - cinder-volume-alletra-iscsi-secrets-1
+              networkAttachments:
+              - storage
+              replicas: 1
+              resources: {}
+
+        ...
+</code></pre>
+<p><strong>FC driver example:</strong></p>
+<pre><code>spec:
+      ...
+      cinder:
+        template:
+          cinderAPI:
+            ...
+          cinderScheduler:
+            ...
+          cinderBackup:
+            ...
+          cinderVolumes:
+            alletra-fc:
+              customServiceConfig: |
+                [DEFAULT]
+                enabled_backends=alletra-fc
+                [alletra-fc]
+                volume_driver=cinder.volume.drivers.hpe.hpe_3par_fc.HPE3PARFCDriver
+              customServiceConfigSecrets:
+              - cinder-volume-alletra-fc-secrets
+              networkAttachments:
+              - storage
+              replicas: 1
+              resources: {}
+            alletra-fc-1:
+              customServiceConfig: |
+                [DEFAULT]
+                enabled_backends=alletra-fc
+                [alletra-fc-1]
+                volume_driver=cinder.volume.drivers.hpe.hpe_3par_fc.HPE3PARFCDriver
+                volume_backend_name = alletra-fc-1
+              customServiceConfigSecrets:
+              - cinder-volume-alletra-fc-secrets-1
+              networkAttachments:
+              - storage
+              replicas: 1
+              resources: {}
+
+        ...
+</code></pre>
+<p>The above examples are for two backends. Notice that the Cinder configuration part of the deployment (alletra-iscsi/ alletra-iscsi-1) here must match the names used in the <em>OpenStackVersion</em> above):</p>
+<p>Save this file and update:</p>
+<pre><code>$ oc apply -f openstack_control_plane.yaml
+</code></pre>
+<p><strong>Test the Deployed Back End</strong></p>
+<p>After RHOSO openstackcontrolplane is deployed, run the following command to check if the Cinder services are up. Creating the control plane also creates an OpenStackClient pod that you can access through a remote shell (rsh) to run OpenStack CLI commands.</p>
+<pre><code>$ oc rsh openstackclient
+sh-5.1$ openstack volume service list
++------------------+---------------------------------------------+------+---------+-------+----------------------------+
+| Binary           | Host                                        | Zone | Status  | State | Updated At                 |
++------------------+---------------------------------------------+------+---------+-------+----------------------------+
+| cinder-scheduler | cinder-scheduler-0                          | nova | enabled | up    | 2025-04-25T19:35:03.000000 |
+| cinder-backup    | cinder-backup-0                             | nova | enabled | up    | 2025-04-25T19:35:06.000000 |
+| cinder-volume    | cinder-volume-alletra-iscsi-0@alletra-iscsi | nova | enabled | up    | 2025-04-25T19:35:06.000000 |
++------------------+---------------------------------------------+------+---------+-------+----------------------------+
+</code></pre>
+<p>Check if a volume type 'alletra-iscsi' is created:</p>
+<pre><code>sh-5.1$ openstack volume type show alletra-iscsi
++--------------------+--------------------------------------+
+| Field              | Value                                |
++--------------------+--------------------------------------+
+| access_project_ids | None                                 |
+| description        | None                                 |
+| id                 | 659351fd-87dc-4abd-94e3-37f50ab2667e |
+| is_public          | True                                 |
+| name               | alletra-iscsi                        |
+| properties         | volume_backend_name='alletra-iscsi'  |
+| qos_specs_id       | None                                 |
++--------------------+--------------------------------------+
+
+sh-5.1$ openstack volume type list
++--------------------------------------+---------------+-----------+
+| ID                                   | Name          | Is Public |
++--------------------------------------+---------------+-----------+
+| 659351fd-87dc-4abd-94e3-37f50ab2667e | alletra-iscsi | True      |
+</code></pre>
+<p>Create a volume using the volume type created above without error to ensure the availability of the backend:</p>
+<pre><code>sh-5.1$ openstack volume create --type alletra-iscsi --size 5 alletra-vol1
++---------------------+--------------------------------------+
+| Field               | Value                                |
++---------------------+--------------------------------------+
+| attachments         | []                                   |
+| availability_zone   | nova                                 |
+| bootable            | false                                |
+| consistencygroup_id | None                                 |
+| created_at          | 2025-04-25T19:44:34.787543           |
+| description         | None                                 |
+| encrypted           | False                                |
+| id                  | cfb5e913-d5e8-48bf-a0cd-0ad41862f390 |
+| migration_status    | None                                 |
+| multiattach         | False                                |
+| name                | alletra-vol1                         |
+| properties          |                                      |
+| replication_status  | None                                 |
+| size                | 5                                    |
+| snapshot_id         | None                                 |
+| source_volid        | None                                 |
+| status              | creating                             |
+| type                | alletra-iscsi                        |
+| updated_at          | None                                 |
+| user_id             | d9e4b7975686491d83806046c1725949     |
++---------------------+--------------------------------------+
+</code></pre>
+<p>Confirm the volume was created successfully:</p>
+<pre><code>sh-5.1$ openstack volume list
++--------------------------------------+--------------+-----------+------+-------------+
+| ID                                   | Name         | Status    | Size | Attached to |
++--------------------------------------+--------------+-----------+------+-------------+
+| cfb5e913-d5e8-48bf-a0cd-0ad41862f390 | alletra-vol1 | available |    5 |             |
++--------------------------------------+--------------+-----------+------+-------------+
+</code></pre>
               
             </div>
           </div><footer>
