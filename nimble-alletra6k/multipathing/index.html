@@ -134,13 +134,77 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="multipathing">Multipathing</h1>
-<p>HPE recommends enabling multipath I/O for all Nimble volumes.</p>
-<ul>
-<li>iSCSI: configure multipathd</li>
-<li>FC: ensure proper zoning</li>
-</ul>
-<p>Check with:</p>
-<pre><code class="language-bash">multipath -ll
+<p>In OpenStack environments where Cinder block device multipathing is desired
+there are a few things to consider.</p>
+<p>Configuring mulitpathing varies by system depending on the environment. In a
+scenario where solely Nimble devices are being created by Cinder, the
+following <code>/etc/multipath.conf</code> file may be used:</p>
+<pre><code>defaults {
+    user_friendly_names yes
+    find_multipaths     no
+}
+
+blacklist {
+    devnode &quot;^(ram|raw|loop|fd|md|dm-|sr|scd|st)[0-9]*&quot;
+    devnode &quot;^hd[a-z]&quot;
+    device {
+        vendor  &quot;.*&quot;
+        product &quot;.*&quot;
+    }
+}
+
+blacklist_exceptions {
+    device {
+        vendor  &quot;Nimble&quot;
+        product &quot;Server&quot;
+    }
+}
+
+devices {
+    device {
+        vendor               &quot;Nimble&quot;
+        product              &quot;Server&quot;
+        path_grouping_policy group_by_prio
+        prio                 &quot;alua&quot;
+        hardware_handler     &quot;1 alua&quot;
+        path_selector        &quot;service-time 0&quot;
+        path_checker         tur
+        features             &quot;1 queue_if_no_path&quot;
+        no_path_retry        30
+        failback             immediate
+        fast_io_fail_tmo     5
+        dev_loss_tmo         infinity
+        rr_min_io_rq         1
+        rr_weight            uniform
+    }
+}
+</code></pre>
+<p>After making changes to <code>/etc/multipath.conf</code>, the multipath subsystem needs
+to be reconfigured:</p>
+<pre><code># multipathd reconfigure
+</code></pre>
+<p>Tip:</p>
+<p>The latest best practices for Nimble devices can be found in the HPE Nimble
+Storage Linux Integration Guide found on https://infosight.hpe.com</p>
+<p>Important:</p>
+<p>OpenStack Cinder is currently not compatible with the HPE Nimble Storage
+Linux Toolkit (NLT)</p>
+<p>Nova needs to be configured to pickup the actual multipath device created on
+the host.</p>
+<p>In <code>/etc/nova/nova.conf</code>, add the following to the <code>[libvirt]</code> section:</p>
+<pre><code>[libvirt]
+volume_use_multipath = True
+</code></pre>
+<p>Note:
+In versions prior to Newton, the option was called <code>iscsi_use_multipath</code></p>
+<p>After editing the Nova configuration file, the <code>nova-conductor</code> service
+needs to be restarted.</p>
+<p>Tip:
+Depending on which particular OpenStack distribution is being used, Nova
+may use a different configuration file than the default.</p>
+<p>To validate that instances get properly connected to the multipath device,
+inspect the instance devices:</p>
+<pre><code># virsh dumpxml &lt;Instance ID | Instance Name | Instance UUID&gt;
 </code></pre>
               
             </div>
