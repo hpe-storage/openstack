@@ -134,12 +134,33 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="configuration-options">Configuration Options</h1>
-<ul>
-<li><code>san_ip</code> → Management IP of Nimble array</li>
-<li><code>san_login</code> / <code>san_password</code> → Credentials</li>
-<li><code>nimble_pool_name</code> → Storage pool</li>
-<li><code>nimble_subnet_label</code> → Optional subnet label</li>
-</ul>
+<p>The Nimble/Alletra 6k storage driver supports these configuration options:</p>
+<table>
+<thead>
+<tr>
+<th>Configuration option = Default value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>nimble_pool_name = default</td>
+<td>(String) Nimble Controller pool name</td>
+</tr>
+<tr>
+<td>nimble_subnet_label = *</td>
+<td>(String) Nimble Subnet Label</td>
+</tr>
+<tr>
+<td>nimble_verify_cert_path = None</td>
+<td>(String) Path to Nimble Array SSL certificate</td>
+</tr>
+<tr>
+<td>nimble_verify_certificate = False</td>
+<td>(Boolean) Whether to verify Nimble SSL Certificate</td>
+</tr>
+</tbody>
+</table>
               
             </div>
           </div><footer>
