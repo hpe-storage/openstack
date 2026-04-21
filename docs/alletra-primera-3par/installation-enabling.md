@@ -152,6 +152,12 @@ The HPE 3PAR Fibre Channel and iSCSI drivers are now enabled on your
 OpenStack system. If you experience problems, review the Block Storage
 service log files for errors.
 
+Note
+
+Following an array reboot, a restart of the Cinder services is required,
+as the previous session is no longer valid and a new session must be created.
+This is expected behavior.
+
 The following table contains all the configuration options supported by
 the HPE 3PAR Fibre Channel and iSCSI drivers.
 
