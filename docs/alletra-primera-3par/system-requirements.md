@@ -6,7 +6,7 @@ __Software Requirements__
 - HPE Alletra 9000 OS v9.5 or later.
 - HPE Primera OS v4.5 or later.
 - HPE 3PAR OS v3.2.1 or later.
-- python-3parclient ≥ 4.2.14.
+- latest [python-3parclient 4.4](https://pypi.org/project/python-3parclient/).
 
 __Network Requirements__
 
