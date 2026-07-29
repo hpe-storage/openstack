@@ -7,7 +7,7 @@ OpenStack software.
 Storage system.
 
 ```
-$ pip install 'python-3parclient>=4.0,<5.0'
+$ pip install python-3parclient
 ```
 
 2. Verify that the HPE 3PAR Web Services API server is enabled and running on
