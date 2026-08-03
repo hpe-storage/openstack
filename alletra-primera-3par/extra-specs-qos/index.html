@@ -134,7 +134,7 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="extra-specs-qos">Extra Specs &amp; QoS</h1>
-<p>Volume type support for both HPE 3PAR drivers includes the ability to set the following capabilities in the OpenStack Block Storage API <strong>cinder.api.contrib.types_extra_specs</strong> volume type extra specs extension module:</p>
+<p>Volume type support for both HPE 3PAR drivers (iSCSI &amp; FC) includes the ability to set the following capabilities in the OpenStack Block Storage API <strong>cinder.api.contrib.types_extra_specs</strong> volume type extra specs extension module:</p>
 <ul>
 <li>hpe3par:snap_cpg</li>
 <li>hpe3par:provisioning</li>
@@ -147,7 +147,7 @@
 <pre><code>openstack help volume type
 </code></pre>
 <p>Note</p>
-<p>Volumes that are cloned only support the extra specs keys cpg, snap_cpg, provisioning and vvs. The others are ignored. In addition the comments section of the cloned volume in the HPE 3PAR / Primera / Alletra 9k / Alletra MP array is not populated.</p>
+<p>Volumes that are cloned support only the following extra specs keys: cpg, snap_cpg, provisioning and vvs. The others are ignored. In addition the comments section of the cloned volume in the HPE 3PAR / Primera / Alletra 9k / Alletra MP array is not populated.</p>
 <p>If volume types are not used or a particular key is not set for a volume type, the following defaults are used:</p>
 <ul>
 <li>hpe3par:cpg - Defaults to the hpe3par_cpg setting in the cinder.conf file.</li>
@@ -184,7 +184,8 @@
 <li>latency</li>
 <li>priority</li>
 </ul>
-<p>Note: The QoS support is available only till 10.4.x. Its not supported on 10.5.x</p>
+<p>Note: The above QoS values are available till 10.4.x.
+On 10.5.x, only two values are allowed (maxBWS and maxIOPS). Other QoS values are not available.</p>
 <p>The qos keys above no longer require to be scoped but must be created and associated to a volume type. For information about how to set the key-value pairs and associate them with a volume type, run the following commands:</p>
 <pre><code>openstack help volume qos
 </code></pre>
