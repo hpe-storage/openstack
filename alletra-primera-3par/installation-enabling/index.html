@@ -136,102 +136,109 @@
                 <h1 id="installation-enabling-the-driver">Installation &amp; Enabling the Driver</h1>
 <p>The <code>HPE3PARFCDriver</code> and <code>HPE3PARISCSIDriver</code> are installed with the
 OpenStack software.</p>
-<ol>
-<li>Install the <code>python-3parclient</code> Python package on the OpenStack Block
-Storage system.</li>
-</ol>
-<p><code>$ pip install python-3parclient</code></p>
-<ol>
-<li>Verify that the HPE 3PAR Web Services API server is enabled and running on
-the HPE 3PAR / Primera / Alletra 9k / Alletra MP storage system.</li>
-</ol>
+<p>1] Install the <code>python-3parclient</code> Python package on the OpenStack Block
+Storage system.</p>
+<pre><code>$ pip install python-3parclient
+</code></pre>
+<p>2] Verify that the HPE 3PAR Web Services API server is enabled and running on
+the HPE 3PAR / Primera / Alletra 9k / Alletra MP storage system.</p>
 <p>a. Log onto the HPE 3PAR / Primera / Alletra 9k / Alletra MP storage system
-   with administrator access.</p>
-<p><code>$ ssh 3paradm@&lt;HPE storage system IP Address&gt;</code></p>
+with administrator access.</p>
+<pre><code>$ ssh 3paradm@&lt;HPE storage system IP Address&gt;
+</code></pre>
 <p>b. View the current state of the Web Services API Server.</p>
-<p><code>$ showwsapi
-   -Service- -State- -HTTP_State- HTTP_Port -HTTPS_State- HTTPS_Port -Version-
-   Enabled   Active Enabled       8008        Enabled       8080       1.1</code></p>
+<pre><code>$ showwsapi
+-Service- -State- -HTTP_State- HTTP_Port -HTTPS_State- HTTPS_Port -Version-
+Enabled   Active Enabled       8008        Enabled       8080       1.1
+</code></pre>
 <p>c. If the Web Services API Server is disabled, start it.</p>
-<p><code>$ startwsapi</code></p>
-<ol>
-<li>If the HTTP or HTTPS state is disabled, enable one of them.</li>
-</ol>
-<p><code>$ setwsapi -http enable</code></p>
+<pre><code>$ startwsapi
+</code></pre>
+<p>3] If the HTTP or HTTPS state is disabled, enable one of them.</p>
+<pre><code>$ setwsapi -http enable
+</code></pre>
 <p>or</p>
-<p><code>$ setwsapi -https enable</code></p>
+<pre><code>$ setwsapi -https enable
+</code></pre>
 <p>Note</p>
 <p>To stop the Web Services API Server, use the :command:<code>stopwsapi</code> command. For
-   other options run the :command:<code>setwsapi -h</code> command.</p>
-<ol>
-<li>
-<p>If you are not using an existing CPG, create a CPG on the HPE 3PAR / Primera
+other options run the :command:<code>setwsapi -h</code> command.</p>
+<p>4] If you are not using an existing CPG, create a CPG on the HPE 3PAR / Primera
    / Alletra 9k / Alletra MP storage system to be used as the default location
    for creating volumes.</p>
-</li>
-<li>
-<p>Make the following changes in the <code>/etc/cinder/cinder.conf</code> file.</p>
-</li>
-</ol>
-<p>```
-   # WSAPI Server URL.
-   # This setting applies to all: 3PAR, Primera, Alletra 9k and Alletra MP.
-   # Example 1: for 3PAR, URL is:
-   https://&lt;3par ip&gt;:8080/api/v1</p>
-<p># Example 2: for Primera/Alletra 9k/Alletra MP, URL is:
-   https://<primera/alletra_9k/alletra_mp ip>:443/api/v1</p>
-<p># 3PAR / Primera / Alletra 9k / Alletra MP username with the 'edit' role
-   hpe3par_username=3paradm</p>
-<p># 3PAR / Primera / Alletra 9k / Alletra MP password for the user specified in hpe3par_username
-   hpe3par_password=3parpass</p>
-<p># 3PAR / Primera / Alletra 9k / Alletra MP CPG to use for volume creation
-   hpe3par_cpg=OpenStackCPG</p>
-<p># IP address of SAN controller for SSH access to the array
-   san_ip=10.132.x.y</p>
-<p># Username for SAN controller for SSH access to the array
-   san_login=3paradm</p>
-<p># Password for SAN controller for SSH access to the array
-   san_password=3parpass</p>
-<p># FIBRE CHANNEL DRIVER
-   # (uncomment the next line to enable the FC driver)
-   #volume_driver=cinder.volume.drivers.hpe.hpe_3par_fc.HPE3PARFCDriver</p>
-<p># iSCSI DRIVER
-   # If you enable the iSCSI driver, you must also set values
-   # for hpe3par_iscsi_ips or iscsi_ip_address in this file.
-   # Note: The iSCSI driver is supported with 3PAR (all versions)
-   # and Primera (version 4.2 or higher). If you configure iSCSI
-   # with Primera 4.0 or 4.1, the driver will fail to start.
-   # (uncomment the next line to enable the iSCSI driver)
-   #volume_driver=cinder.volume.drivers.hpe.hpe_3par_iscsi.HPE3PARISCSIDriver</p>
-<p># iSCSI multiple port configuration
-   # hpe3par_iscsi_ips=192.168.x.y,192.168.x.z</p>
-<p># Enable HTTP debugging to 3PAR / Primera / Alletra 9k / Alletra MP
-   hpe3par_debug=True</p>
-<p># Enable CHAP authentication for iSCSI connections.
-   hpe3par_iscsi_chap_enabled=false</p>
-<p># The CPG to use for Snapshots for volumes. If empty hpe3par_cpg will be
-   # used.
-   hpe3par_cpg_snap=OpenStackSNAP_CPG</p>
-<p># Time in hours to retain a snapshot. You can't delete it before this
-   # expires.
-   hpe3par_snapshot_retention=48</p>
-<p># Time in hours when a snapshot expires and is deleted. This must be
-   # larger than retention.
-   hpe3par_snapshot_expiration=72</p>
-<p># The ratio of oversubscription when thin provisioned volumes are
-   # involved. Default ratio is 20.0, this means that a provisioned
-   # capacity can be 20 times of the total physical capacity.
-   max_over_subscription_ratio=20.0
-   ```</p>
+<p>5] Make the following changes in the <code>/etc/cinder/cinder.conf</code> file.</p>
+<pre><code># WSAPI Server URL.
+# This setting applies to all: 3PAR, Primera, Alletra 9k and Alletra MP.
+# Example 1: for 3PAR, URL is:
+https://&lt;3par ip&gt;:8080/api/v1
+
+# Example 2: for Primera/Alletra 9k/Alletra MP, URL is:
+https://&lt;primera/alletra_9k/alletra_mp ip&gt;:443/api/v1
+
+# 3PAR / Primera / Alletra 9k / Alletra MP username with the 'edit' role
+hpe3par_username=3paradm
+
+# 3PAR / Primera / Alletra 9k / Alletra MP password for the user specified in hpe3par_username
+hpe3par_password=3parpass
+
+# 3PAR / Primera / Alletra 9k / Alletra MP CPG to use for volume creation
+hpe3par_cpg=OpenStackCPG
+
+# IP address of SAN controller for SSH access to the array
+san_ip=10.132.x.y
+
+# Username for SAN controller for SSH access to the array
+san_login=3paradm
+
+# Password for SAN controller for SSH access to the array
+san_password=3parpass
+
+# FIBRE CHANNEL DRIVER
+# (uncomment the next line to enable the FC driver)
+#volume_driver=cinder.volume.drivers.hpe.hpe_3par_fc.HPE3PARFCDriver
+
+# iSCSI DRIVER
+# If you enable the iSCSI driver, you must also set values
+# for hpe3par_iscsi_ips or iscsi_ip_address in this file.
+# Note: The iSCSI driver is supported with 3PAR (all versions)
+# and Primera (version 4.2 or higher). If you configure iSCSI
+# with Primera 4.0 or 4.1, the driver will fail to start.
+# (uncomment the next line to enable the iSCSI driver)
+#volume_driver=cinder.volume.drivers.hpe.hpe_3par_iscsi.HPE3PARISCSIDriver
+
+# iSCSI multiple port configuration
+# hpe3par_iscsi_ips=192.168.x.y,192.168.x.z
+
+# Enable HTTP debugging to 3PAR / Primera / Alletra 9k / Alletra MP
+hpe3par_debug=True
+
+# Enable CHAP authentication for iSCSI connections.
+hpe3par_iscsi_chap_enabled=false
+
+# The CPG to use for Snapshots for volumes. If empty hpe3par_cpg will be
+# used.
+hpe3par_cpg_snap=OpenStackSNAP_CPG
+
+# Time in hours to retain a snapshot. You can't delete it before this
+# expires.
+hpe3par_snapshot_retention=48
+
+# Time in hours when a snapshot expires and is deleted. This must be
+# larger than retention.
+hpe3par_snapshot_expiration=72
+
+# The ratio of oversubscription when thin provisioned volumes are
+# involved. Default ratio is 20.0, this means that a provisioned
+# capacity can be 20 times of the total physical capacity.
+max_over_subscription_ratio=20.0
+</code></pre>
 <p>Note</p>
 <p>You can configure one or more iSCSI addresses by using the
-   <code>hpe3par_iscsi_ips</code> option. Separate multiple IP addresses with a
-   comma (<code>,</code>). When you configure multiple addresses, the driver selects
-   the iSCSI port with the fewest active volumes at attach time.</p>
-<ol>
-<li>Save the changes to the <code>cinder.conf</code> file and restart the cinder
-services.</li>
-</ol>
+<code>hpe3par_iscsi_ips</code> option. Separate multiple IP addresses with a
+comma (<code>,</code>). When you configure multiple addresses, the driver selects
+the iSCSI port with the fewest active volumes at attach time.</p>
+<p>6] Save the changes to the <code>cinder.conf</code> file and restart the cinder
+services.</p>
 <p>The HPE 3PAR Fibre Channel and iSCSI drivers are now enabled on your
 OpenStack system. If you experience problems, review the Block Storage
 service log files for errors.</p>
