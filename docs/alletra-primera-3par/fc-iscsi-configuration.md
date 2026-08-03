@@ -3,7 +3,6 @@
 __Fibre Channel__
 
 - Ensure proper zoning between hosts and array ports.
-- Mask volumes using WWNs.
 
 __iSCSI__
 
@@ -20,6 +19,5 @@ __iSCSI__
 
 __Notes__
 
-- Use CHAP for authentication in iSCSI.
 - Multipathing ensures resiliency.
 
