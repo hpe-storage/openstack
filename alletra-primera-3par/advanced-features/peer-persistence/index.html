@@ -134,7 +134,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="peer-persistence">Peer Persistence</h1>
+                <h1 id="peer-persistence-classic-pp-only">Peer Persistence (Classic PP only)</h1>
 <p>Given 3PAR/Primera backend configured with replication setup, currently only Active/Passive replication is supported by 3PAR/Primera in OpenStack. When failover happens, nova does not support volume force-detach (from dead primary backend) / re-attach to secondary backend. Storage engineer’s manual intervention is required.</p>
 <p>To overcome above scenario, support for Peer Persistence is added. Given a system with Peer Persistence configured and replicated volume is created. When this volume is attached to an instance, vlun is created automatically in secondary backend, in addition to primary backend. So that when a failover happens, it is seamless.</p>
 <p>For Peer Persistence support, perform following steps: 1] enable multipath 2] set replication mode as “sync” 3] configure a quorum witness server</p>

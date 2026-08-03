@@ -188,16 +188,16 @@ https://&lt;3par ip&gt;:8080/api/v1
 https://&lt;primera/alletra_9k/alletra_mp ip&gt;:443/api/v1
 
 # 3PAR / Primera / Alletra 9k / Alletra MP username with the 'edit' role
-hpe3par_username=edit3par
+hpe3par_username=3paradm
 
 # 3PAR / Primera / Alletra 9k / Alletra MP password for the user specified in hpe3par_username
 hpe3par_password=3parpass
 
 # 3PAR / Primera / Alletra 9k / Alletra MP CPG to use for volume creation
-hpe3par_cpg=OpenStackCPG_RAID5_NL
+hpe3par_cpg=OpenStackCPG
 
 # IP address of SAN controller for SSH access to the array
-san_ip=10.10.22.241
+san_ip=10.132.x.y
 
 # Username for SAN controller for SSH access to the array
 san_login=3paradm
@@ -219,13 +219,10 @@ san_password=3parpass
 #volume_driver=cinder.volume.drivers.hpe.hpe_3par_iscsi.HPE3PARISCSIDriver
 
 # iSCSI multiple port configuration
-# hpe3par_iscsi_ips=10.10.220.253:3261,10.10.222.234
-
-# Still available for single port iSCSI configuration
-#iscsi_ip_address=10.10.220.253
+# hpe3par_iscsi_ips=192.168.x.y,192.168.x.z
 
 # Enable HTTP debugging to 3PAR / Primera / Alletra 9k / Alletra MP
-hpe3par_debug=False
+hpe3par_debug=True
 
 # Enable CHAP authentication for iSCSI connections.
 hpe3par_iscsi_chap_enabled=false
@@ -246,24 +243,15 @@ hpe3par_snapshot_expiration=72
 # involved. Default ratio is 20.0, this means that a provisioned
 # capacity can be 20 times of the total physical capacity.
 max_over_subscription_ratio=20.0
-
-# This flag represents the percentage of reserved back-end capacity.
-reserved_percentage=15
 </code></pre>
-<p>Note</p>
-<p>You can enable only one driver on each cinder instance unless you enable
-multiple back-end support. See the Cinder multiple back-end support
-instructions to enable this feature.</p>
 <p>Note</p>
 <p>You can configure one or more iSCSI addresses by using the
 <code>hpe3par_iscsi_ips</code> option. Separate multiple IP addresses with a
 comma (<code>,</code>). When you configure multiple addresses, the driver selects
-the iSCSI port with the fewest active volumes at attach time. The 3PAR
-array does not allow the default port 3260 to be changed, so IP ports
-need not be specified.</p>
+the iSCSI port with the fewest active volumes at attach time.</p>
 <ol>
-<li>Save the changes to the <code>cinder.conf</code> file and restart the cinder-volume
-service.</li>
+<li>Save the changes to the <code>cinder.conf</code> file and restart the cinder
+services.</li>
 </ol>
 <p>The HPE 3PAR Fibre Channel and iSCSI drivers are now enabled on your
 OpenStack system. If you experience problems, review the Block Storage
