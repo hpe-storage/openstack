@@ -3,135 +3,135 @@
 The ``HPE3PARFCDriver`` and ``HPE3PARISCSIDriver`` are installed with the
 OpenStack software.
 
-1. Install the ``python-3parclient`` Python package on the OpenStack Block
+1] Install the ``python-3parclient`` Python package on the OpenStack Block
 Storage system.
 
-   ```
-   $ pip install python-3parclient
-   ```
+```
+$ pip install python-3parclient
+```
 
-2. Verify that the HPE 3PAR Web Services API server is enabled and running on
+2] Verify that the HPE 3PAR Web Services API server is enabled and running on
 the HPE 3PAR / Primera / Alletra 9k / Alletra MP storage system.
 
-   a. Log onto the HPE 3PAR / Primera / Alletra 9k / Alletra MP storage system
-   with administrator access.
+a. Log onto the HPE 3PAR / Primera / Alletra 9k / Alletra MP storage system
+with administrator access.
 
-   ```
-   $ ssh 3paradm@<HPE storage system IP Address>
-   ```
+```
+$ ssh 3paradm@<HPE storage system IP Address>
+```
 
-   b. View the current state of the Web Services API Server.
+b. View the current state of the Web Services API Server.
 
-   ```
-   $ showwsapi
-   -Service- -State- -HTTP_State- HTTP_Port -HTTPS_State- HTTPS_Port -Version-
-   Enabled   Active Enabled       8008        Enabled       8080       1.1
-   ```
+```
+$ showwsapi
+-Service- -State- -HTTP_State- HTTP_Port -HTTPS_State- HTTPS_Port -Version-
+Enabled   Active Enabled       8008        Enabled       8080       1.1
+```
 
-   c. If the Web Services API Server is disabled, start it.
+c. If the Web Services API Server is disabled, start it.
 
-   ```
-   $ startwsapi
-   ```
+```
+$ startwsapi
+```
 
-3. If the HTTP or HTTPS state is disabled, enable one of them.
+3] If the HTTP or HTTPS state is disabled, enable one of them.
 
-   ```
-   $ setwsapi -http enable
-   ```
+```
+$ setwsapi -http enable
+```
 
-   or
+or
 
-   ```
-   $ setwsapi -https enable
-   ```
+```
+$ setwsapi -https enable
+```
 
-   Note
+Note
 
-   To stop the Web Services API Server, use the :command:`stopwsapi` command. For
-   other options run the :command:`setwsapi -h` command.
+To stop the Web Services API Server, use the :command:`stopwsapi` command. For
+other options run the :command:`setwsapi -h` command.
 
-4. If you are not using an existing CPG, create a CPG on the HPE 3PAR / Primera
+4] If you are not using an existing CPG, create a CPG on the HPE 3PAR / Primera
    / Alletra 9k / Alletra MP storage system to be used as the default location
    for creating volumes.
 
-5. Make the following changes in the ``/etc/cinder/cinder.conf`` file.
+5] Make the following changes in the ``/etc/cinder/cinder.conf`` file.
 
-   ```
-   # WSAPI Server URL.
-   # This setting applies to all: 3PAR, Primera, Alletra 9k and Alletra MP.
-   # Example 1: for 3PAR, URL is:
-   https://<3par ip>:8080/api/v1
+```
+# WSAPI Server URL.
+# This setting applies to all: 3PAR, Primera, Alletra 9k and Alletra MP.
+# Example 1: for 3PAR, URL is:
+https://<3par ip>:8080/api/v1
 
-   # Example 2: for Primera/Alletra 9k/Alletra MP, URL is:
-   https://<primera/alletra_9k/alletra_mp ip>:443/api/v1
+# Example 2: for Primera/Alletra 9k/Alletra MP, URL is:
+https://<primera/alletra_9k/alletra_mp ip>:443/api/v1
 
-   # 3PAR / Primera / Alletra 9k / Alletra MP username with the 'edit' role
-   hpe3par_username=3paradm
+# 3PAR / Primera / Alletra 9k / Alletra MP username with the 'edit' role
+hpe3par_username=3paradm
 
-   # 3PAR / Primera / Alletra 9k / Alletra MP password for the user specified in hpe3par_username
-   hpe3par_password=3parpass
+# 3PAR / Primera / Alletra 9k / Alletra MP password for the user specified in hpe3par_username
+hpe3par_password=3parpass
 
-   # 3PAR / Primera / Alletra 9k / Alletra MP CPG to use for volume creation
-   hpe3par_cpg=OpenStackCPG
+# 3PAR / Primera / Alletra 9k / Alletra MP CPG to use for volume creation
+hpe3par_cpg=OpenStackCPG
 
-   # IP address of SAN controller for SSH access to the array
-   san_ip=10.132.x.y
+# IP address of SAN controller for SSH access to the array
+san_ip=10.132.x.y
 
-   # Username for SAN controller for SSH access to the array
-   san_login=3paradm
+# Username for SAN controller for SSH access to the array
+san_login=3paradm
 
-   # Password for SAN controller for SSH access to the array
-   san_password=3parpass
+# Password for SAN controller for SSH access to the array
+san_password=3parpass
 
-   # FIBRE CHANNEL DRIVER
-   # (uncomment the next line to enable the FC driver)
-   #volume_driver=cinder.volume.drivers.hpe.hpe_3par_fc.HPE3PARFCDriver
+# FIBRE CHANNEL DRIVER
+# (uncomment the next line to enable the FC driver)
+#volume_driver=cinder.volume.drivers.hpe.hpe_3par_fc.HPE3PARFCDriver
 
-   # iSCSI DRIVER
-   # If you enable the iSCSI driver, you must also set values
-   # for hpe3par_iscsi_ips or iscsi_ip_address in this file.
-   # Note: The iSCSI driver is supported with 3PAR (all versions)
-   # and Primera (version 4.2 or higher). If you configure iSCSI
-   # with Primera 4.0 or 4.1, the driver will fail to start.
-   # (uncomment the next line to enable the iSCSI driver)
-   #volume_driver=cinder.volume.drivers.hpe.hpe_3par_iscsi.HPE3PARISCSIDriver
+# iSCSI DRIVER
+# If you enable the iSCSI driver, you must also set values
+# for hpe3par_iscsi_ips or iscsi_ip_address in this file.
+# Note: The iSCSI driver is supported with 3PAR (all versions)
+# and Primera (version 4.2 or higher). If you configure iSCSI
+# with Primera 4.0 or 4.1, the driver will fail to start.
+# (uncomment the next line to enable the iSCSI driver)
+#volume_driver=cinder.volume.drivers.hpe.hpe_3par_iscsi.HPE3PARISCSIDriver
 
-   # iSCSI multiple port configuration
-   # hpe3par_iscsi_ips=192.168.x.y,192.168.x.z
+# iSCSI multiple port configuration
+# hpe3par_iscsi_ips=192.168.x.y,192.168.x.z
 
-   # Enable HTTP debugging to 3PAR / Primera / Alletra 9k / Alletra MP
-   hpe3par_debug=True
+# Enable HTTP debugging to 3PAR / Primera / Alletra 9k / Alletra MP
+hpe3par_debug=True
 
-   # Enable CHAP authentication for iSCSI connections.
-   hpe3par_iscsi_chap_enabled=false
+# Enable CHAP authentication for iSCSI connections.
+hpe3par_iscsi_chap_enabled=false
 
-   # The CPG to use for Snapshots for volumes. If empty hpe3par_cpg will be
-   # used.
-   hpe3par_cpg_snap=OpenStackSNAP_CPG
+# The CPG to use for Snapshots for volumes. If empty hpe3par_cpg will be
+# used.
+hpe3par_cpg_snap=OpenStackSNAP_CPG
 
-   # Time in hours to retain a snapshot. You can't delete it before this
-   # expires.
-   hpe3par_snapshot_retention=48
+# Time in hours to retain a snapshot. You can't delete it before this
+# expires.
+hpe3par_snapshot_retention=48
 
-   # Time in hours when a snapshot expires and is deleted. This must be
-   # larger than retention.
-   hpe3par_snapshot_expiration=72
+# Time in hours when a snapshot expires and is deleted. This must be
+# larger than retention.
+hpe3par_snapshot_expiration=72
 
-   # The ratio of oversubscription when thin provisioned volumes are
-   # involved. Default ratio is 20.0, this means that a provisioned
-   # capacity can be 20 times of the total physical capacity.
-   max_over_subscription_ratio=20.0
-   ```
+# The ratio of oversubscription when thin provisioned volumes are
+# involved. Default ratio is 20.0, this means that a provisioned
+# capacity can be 20 times of the total physical capacity.
+max_over_subscription_ratio=20.0
+```
 
-   Note
+Note
 
-   You can configure one or more iSCSI addresses by using the
-   ``hpe3par_iscsi_ips`` option. Separate multiple IP addresses with a
-   comma (``,``). When you configure multiple addresses, the driver selects
-   the iSCSI port with the fewest active volumes at attach time.
+You can configure one or more iSCSI addresses by using the
+``hpe3par_iscsi_ips`` option. Separate multiple IP addresses with a
+comma (``,``). When you configure multiple addresses, the driver selects
+the iSCSI port with the fewest active volumes at attach time.
 
-6. Save the changes to the ``cinder.conf`` file and restart the cinder
+6] Save the changes to the ``cinder.conf`` file and restart the cinder
 services.
 
 The HPE 3PAR Fibre Channel and iSCSI drivers are now enabled on your
