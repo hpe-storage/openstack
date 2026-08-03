@@ -104,7 +104,7 @@ san_password=3parpass
 hpe3par_debug=True
 
 # Enable CHAP authentication for iSCSI connections.
-hpe3par_iscsi_chap_enabled=false
+hpe3par_iscsi_chap_enabled=False
 
 # The CPG to use for Snapshots for volumes. If empty hpe3par_cpg will be
 # used.
@@ -143,22 +143,5 @@ Note
 Following an array reboot, a restart of the Cinder services is required,
 as the previous session is no longer valid and a new session must be created.
 This is expected behavior.
-
-The following table contains all the configuration options supported by
-the HPE 3PAR Fibre Channel and iSCSI drivers.
-
-| Configuration option = Default value| Description |
-| ----------------------------------- | ----------- |
-| hpe3par_api_url = <> | (String) WSAPI Server URL. This setting applies to: 3PAR, Primera, Alletra 9k and Alletra MP Example 1: for 3PAR, URL is: https://<3par ip>:8080/api/v1 Example 2: for Primera/Alletra 9k/Alletra MP, URL is: https://<primera ip>:443/api/v1 |
-| hpe3par_cpg = [OpenStack] | (List of String) List of the 3PAR/Primera/Alletra 9k/Alletra MP CPG(s) to use for volume creation |
-| hpe3par_cpg_snap = <> | (String) The 3PAR/Primera/Alletra 9k/Alletra MP CPG to use for snapshots of volumes. If empty the userCPG will be used |
-| hpe3par_debug = False | (Boolean) Enable HTTP debugging to 3PAR/Primera/Alletra 9k/Alletra MP |
-| hpe3par_iscsi_chap_enabled = False | (Boolean) Enable CHAP authentication for iSCSI connections. |
-| hpe3par_iscsi_ips = [] | (List of String) List of target iSCSI addresses to use. |
-| hpe3par_password = <> | (String) 3PAR/Primera/Alletra 9k/Alletra MP password for the user specified in hpe3par_username |
-| hpe3par_snapshot_expiration = <> | (String) The time in hours when a snapshot expires and is deleted. This must be larger than expiration |
-| hpe3par_snapshot_retention = <> | (String) The time in hours to retain a snapshot. You can’t delete it before this expires. |
-| hpe3par_target_nsp = <> | (String) The nsp of 3PAR/Primera/Alletra 9k/Alletra MP backend to be used when: (1) multipath is not enabled in cinder.conf. (2) Fiber Channel Zone Manager is not used. (3) the backend is prezoned with this specific nsp only. For example if nsp is 2 1 2, the format of the option’s value is 2:1:2 |
-| hpe3par_username = <> | (String) 3PAR/Primera/Alletra 9k/Alletra MP username with the ‘edit’ role |
 
 
