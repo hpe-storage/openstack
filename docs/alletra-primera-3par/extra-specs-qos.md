@@ -1,6 +1,6 @@
 # Extra Specs & QoS
 
-Volume type support for both HPE 3PAR drivers includes the ability to set the following capabilities in the OpenStack Block Storage API __cinder.api.contrib.types_extra_specs__ volume type extra specs extension module:
+Volume type support for both HPE 3PAR drivers (iSCSI & FC) includes the ability to set the following capabilities in the OpenStack Block Storage API __cinder.api.contrib.types_extra_specs__ volume type extra specs extension module:
 
 - hpe3par:snap_cpg
 - hpe3par:provisioning
@@ -17,7 +17,7 @@ openstack help volume type
 
 Note
 
-Volumes that are cloned only support the extra specs keys cpg, snap_cpg, provisioning and vvs. The others are ignored. In addition the comments section of the cloned volume in the HPE 3PAR / Primera / Alletra 9k / Alletra MP array is not populated.
+Volumes that are cloned support only the following extra specs keys: cpg, snap_cpg, provisioning and vvs. The others are ignored. In addition the comments section of the cloned volume in the HPE 3PAR / Primera / Alletra 9k / Alletra MP array is not populated.
 
 If volume types are not used or a particular key is not set for a volume type, the following defaults are used:
 

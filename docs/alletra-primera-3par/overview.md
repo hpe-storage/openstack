@@ -1,7 +1,7 @@
 # Overview
 
-The HPE Cinder drivers provide integration between OpenStack Block Storage (Cinder)
-and the following storage families:
+The HPE Cinder driver provides integration between OpenStack Block Storage (Cinder)
+and the following HPE storage families:
 
 - HPE Alletra MP
 - HPE Alletra 9000
@@ -13,5 +13,6 @@ Supported protocols:
 - iSCSI
 - Fibre Channel (FC)
 
-The driver is based on the HPE 3PAR Web Services API (WSAPI) and python-3parclient.
+The driver leverages HPE Storage's Web Services API (WSAPI) and
+the external Python library python-3parclient for storage management operations.
 
