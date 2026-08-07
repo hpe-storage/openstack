@@ -36,3 +36,13 @@ nav:
           - Multipathing: nimble-alletra6k/multipathing.md
           - Consistency Group Replication: nimble-alletra6k/consistency-group-replication.md
       - Best Practices Guide: best-practices-guide.md
+  - Manila Driver:
+      - Alletra MP B10000:
+          - Overview: manila/alletrab10k/overview.md
+          - System Requirements: manila/alletrab10k/system-requirements.md
+          - Supported Operations: manila/alletrab10k/supported-operations.md
+          - Share Types & Extra Specs: manila/alletrab10k/share-types.md
+          - Installation & Enabling: manila/alletrab10k/installation-enabling.md
+          - Details on Supported Features: manila/alletrab10k/supported-features-details.md
+          - Restrictions & Limitations: manila/alletrab10k/restrictions-limitations.md
+          - Troubleshooting: manila/alletrab10k/troubleshooting.md
