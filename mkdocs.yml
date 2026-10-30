@@ -22,6 +22,7 @@ nav:
               - NSP for FC Bootable Volumes: alletra-primera-3par/advanced-features/nsp-fc-bootable.md
               - Peer Persistence: alletra-primera-3par/advanced-features/peer-persistence.md
               - Duplicate FQDN Support: alletra-primera-3par/advanced-features/duplicate-fqdn.md
+              - Automated Failover (CFO) / Failback (CFB): alletra-primera-3par/advanced-features/automated-failover-failback.md
           - RHOSP Deployment Guides:
               - RHOSP 18: alletra-primera-3par/rhosp-deployment-guides/rhosp18.md
               - RHOSP 17: alletra-primera-3par/rhosp-deployment-guides/rhosp17.md
