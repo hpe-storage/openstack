@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../../img/favicon.ico" />
+    <title>Automated Failover (CFO) / Failback (CFB) - HPE OpenStack Drivers</title>
+    <link rel="stylesheet" href="../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Automated Failover (CFO) / Failback (CFB)";
+        var mkdocs_page_input_path = "alletra-primera-3par/advanced-features/automated-failover-failback.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../.." class="icon icon-home"> HPE OpenStack Drivers
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Cinder Driver</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" >Alletra MP / Alletra 9000 / Primera / 3PAR</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../../overview/">Overview</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../system-requirements/">System Requirements</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../supported-operations/">Supported Operations</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../extra-specs-qos/">Extra Specs & QoS</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../installation-enabling/">Installation & Enabling</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../fc-iscsi-configuration/">FC / iSCSI Configuration</a>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" >Advanced Features</a>
+    <ul class="current">
+                <li class="toctree-l3"><a class="reference internal" href="../nsp-fc-bootable/">NSP for FC Bootable Volumes</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../peer-persistence/">Peer Persistence</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../duplicate-fqdn/">Duplicate FQDN Support</a>
+                </li>
+                <li class="toctree-l3 current"><a class="reference internal current" href="#">Automated Failover (CFO) / Failback (CFB)</a>
+    <ul class="current">
+    <li class="toctree-l4"><a class="reference internal" href="#how-it-works">How it works</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#failover-and-failback-at-a-glance">Failover and failback at a glance</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#prerequisites">Prerequisites</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#example">Example</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#more-information">More information</a>
+    </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >RHOSP Deployment Guides</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../rhosp-deployment-guides/rhosp18/">RHOSP 18</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../rhosp-deployment-guides/rhosp17/">RHOSP 17</a>
+                </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Supportability</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../supportability/overview/">Overview</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Nimble / Alletra 6k</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../nimble-alletra6k/overview/">Overview</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../nimble-alletra6k/supported-operations/">Supported Operations</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../nimble-alletra6k/configuration/">Configuration</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../nimble-alletra6k/extra-spec-options/">Extra Spec Options</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../nimble-alletra6k/configuration-options/">Configuration Options</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../nimble-alletra6k/multipathing/">Multipathing</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../nimble-alletra6k/consistency-group-replication/">Consistency Group Replication</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../best-practices-guide/">Best Practices Guide</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../..">HPE OpenStack Drivers</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Cinder Driver</li>
+          <li class="breadcrumb-item">Alletra MP / Alletra 9000 / Primera / 3PAR</li>
+          <li class="breadcrumb-item">Advanced Features</li>
+      <li class="breadcrumb-item active">Automated Failover (CFO) / Failback (CFB)</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="automated-failover-cfo-failback-cfb">Automated Failover (CFO) / Failback (CFB)</h1>
+<p>Cinder replication lets a replicated HPE Alletra MP backend be switched to its
+secondary (DR) array when the primary is unavailable, and switched back once the
+primary recovers. Run by hand, this means checking service state, picking the
+right <code>backend_id</code>, issuing the Cinder command and then confirming that the
+backend settled. Mistakes here can leave a backend half-switched.</p>
+<p>Automated failover (CFO, Cinder failover) and failback (CFB, Cinder failback)
+wrap that procedure in Ansible playbooks, so the same validated steps run every
+time. The playbooks work with Peer Persistence (active-active) volumes and
+groups, and run standalone or from an OpenStack-Ansible deployment.</p>
+<h2 id="how-it-works">How it works</h2>
+<p>The playbooks do not talk to the storage arrays. They validate the request,
+issue <code>cinder failover-host</code>, and watch the Cinder service record until the
+backend reaches the expected replication status. The HPE Alletra MP Cinder
+driver performs the array-side work.</p>
+<ol>
+<li><strong>Preflight and capability check:</strong> confirms the action and target are valid
+   and that the deployed driver supports automated failback.</li>
+<li><strong>Service and policy validation:</strong> confirms the target cinder-volume service
+   is <code>up</code>, not mid-transition, and that the requested <code>backend_id</code> is a
+   configured <code>replication_device</code>.</li>
+<li><strong>Idempotency check:</strong> ends as a no-op if the backend is already in the
+   requested state.</li>
+<li><strong>Execution and settle polling:</strong> sends the failover or failback request and
+   polls the backend status until it completes, fails, or the settle window
+   ends.</li>
+<li><strong>Verification:</strong> reports the final state of the target backend.</li>
+</ol>
+<h2 id="failover-and-failback-at-a-glance">Failover and failback at a glance</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Failover (CFO)</th>
+<th>Failback (CFB)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Purpose</td>
+<td>Move the backend to the secondary (DR) array</td>
+<td>Return the backend to the original primary array</td>
+</tr>
+<tr>
+<td>Entry point</td>
+<td><code>cinder-failover.yml</code></td>
+<td><code>cinder-failback.yml</code></td>
+</tr>
+<tr>
+<td><code>backend_id</code></td>
+<td>The <code>replication_device</code> to fail over to</td>
+<td>Always <code>default</code></td>
+</tr>
+<tr>
+<td>Works when primary is</td>
+<td>Up (planned) or down (unplanned)</td>
+<td>Up and reachable</td>
+</tr>
+<tr>
+<td>Expected host status afterwards</td>
+<td><code>failed-over</code></td>
+<td><code>enabled</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>Replication is configured on the backend (<code>replication_device</code> is set).</li>
+<li>Every Peer Persistence remote copy group is started and fully synchronized.</li>
+<li>For failback, the original primary array is reachable and the DR remote copy
+  groups are in sync.</li>
+<li>An OpenStack RC file with credentials allowed to list Cinder services and
+  invoke backend failover.</li>
+</ul>
+<h2 id="example">Example</h2>
+<p>Failover:</p>
+<pre><code class="language-bash">ansible-playbook -i local-inventory cinder-failover.yml \
+  -e cinder_replication_openrc=/opt/stack/devstack/openrc \
+  -e cinder_replication_target='&lt;host&gt;@&lt;backend&gt;' \
+  -e cinder_replication_backend_id='&lt;replication_device_backend_id&gt;'
+</code></pre>
+<p>Failback:</p>
+<pre><code class="language-bash">ansible-playbook -i local-inventory cinder-failback.yml \
+  -e cinder_replication_openrc=/opt/stack/devstack/openrc \
+  -e cinder_replication_target='&lt;host&gt;@&lt;backend&gt;'
+</code></pre>
+<p>Run both commands from <code>alletramp/playbooks/openstack_cinder/</code>. After each run,
+also check the volumes (<code>cinder list --all-projects</code>), because the host status
+only shows that the backend finished, not that every volume switched.</p>
+<h2 id="more-information">More information</h2>
+<p>For the full variable list, per-scenario driver behavior, result and status
+reference, and troubleshooting, see the
+<a href="https://github.hpe.com/hpe/hpe_storage_ansible_modules/blob/pike_changes/alletramp/playbooks/openstack_cinder/README.md"> Ansible Cinder Replication Component for CFO/CFB</a>.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../duplicate-fqdn/" class="btn btn-neutral float-left" title="Duplicate FQDN Support"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../../rhosp-deployment-guides/rhosp18/" class="btn btn-neutral float-right" title="RHOSP 18">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../duplicate-fqdn/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../../rhosp-deployment-guides/rhosp18/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../..";</script>
+    <script src="../../../js/theme_extra.js"></script>
+    <script src="../../../js/theme.js"></script>
+      <script src="../../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
