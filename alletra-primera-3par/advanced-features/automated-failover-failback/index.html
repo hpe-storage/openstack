@@ -141,7 +141,8 @@
 secondary (DR) array when the primary is unavailable, and switched back once the
 primary recovers. Run by hand, this means checking service state, picking the
 right <code>backend_id</code>, issuing the Cinder command and then confirming that the
-backend settled. Mistakes here can leave a backend half-switched.</p>
+backend settled. Mistakes during manual execution can leave a backend in an
+intermediate or inconsistent failover state.</p>
 <p>Automated failover (CFO, Cinder failover) and failback (CFB, Cinder failback)
 wrap that procedure in Ansible playbooks, so the same validated steps run every
 time. The playbooks work with Peer Persistence (active-active) volumes and
@@ -153,22 +154,29 @@ backend reaches the expected replication status. The HPE Alletra MP Cinder
 driver performs the array-side work.</p>
 <ol>
 <li><strong>Preflight and capability check:</strong> confirms the action and target are valid
-   and that the deployed driver supports automated failback.</li>
+   and that the deployed HPE Alletra MP Cinder driver advertises support
+   (<code>AUTO_FAILBACK_SUPPORTED</code>) for failover and failback through the Cinder
+   <code>failover-host</code> API. If it does not, the run ends as a no-op.</li>
 <li><strong>Service and policy validation:</strong> confirms the target cinder-volume service
-   is <code>up</code>, not mid-transition, and that the requested <code>backend_id</code> is a
+   is <code>up</code> and not mid-transition (<code>replication_status</code> is not
+   <code>failing-over</code>). For failover, <code>replication_status</code> must also be <code>enabled</code>
+   or <code>failed-over</code>. It then confirms the requested <code>backend_id</code> is a
    configured <code>replication_device</code>.</li>
 <li><strong>Idempotency check:</strong> ends as a no-op if the backend is already in the
    requested state.</li>
 <li><strong>Execution and settle polling:</strong> sends the failover or failback request and
    polls the backend status until it completes, fails, or the settle window
-   ends.</li>
+   ends. During polling, the playbooks monitor the service
+   <code>replication_status</code> and wait until the backend reaches the expected
+   status (<code>failed-over</code> after failover, <code>enabled</code> after failback). A backend
+   still <code>failing-over</code> when the window ends is reported as a warning.</li>
 <li><strong>Verification:</strong> reports the final state of the target backend.</li>
 </ol>
 <p><strong>Failover and failback at a glance</strong></p>
 <table>
 <thead>
 <tr>
-<th></th>
+<th>Item</th>
 <th>Failover (CFO)</th>
 <th>Failback (CFB)</th>
 </tr>
@@ -177,7 +185,7 @@ driver performs the array-side work.</p>
 <tr>
 <td>Purpose</td>
 <td>Move backend to secondary (DR) array</td>
-<td>Return backend to primary</td>
+<td>Return backend to primary array</td>
 </tr>
 <tr>
 <td>Entry point</td>
@@ -186,21 +194,23 @@ driver performs the array-side work.</p>
 </tr>
 <tr>
 <td><code>backend_id</code></td>
-<td>The <code>replication_device</code> to fail over to</td>
-<td>Always <code>default</code></td>
+<td>Target <code>replication_device</code> backend</td>
+<td><code>default</code></td>
 </tr>
 <tr>
-<td>Works when primary is</td>
-<td>Up (planned) or down (unplanned)</td>
-<td>Up and reachable</td>
+<td>Primary array state</td>
+<td>Available (planned failover) or unavailable (disaster recovery failover)</td>
+<td>Available and reachable</td>
 </tr>
 <tr>
-<td>Expected host status afterwards</td>
+<td>Expected <code>replication_status</code></td>
 <td><code>failed-over</code></td>
 <td><code>enabled</code></td>
 </tr>
 </tbody>
 </table>
+<p>For failback, Cinder uses <code>backend_id=default</code>, which instructs the driver to
+return to the original primary backend.</p>
 <p><strong>Prerequisites</strong></p>
 <ul>
 <li>Replication is configured on the backend (<code>replication_device</code> is set).</li>
@@ -209,26 +219,48 @@ driver performs the array-side work.</p>
   groups are in sync.</li>
 <li>An OpenStack RC file with credentials allowed to list Cinder services and
   invoke backend failover.</li>
+<li>The playbook runs on the cinder-volume host, so the capability check can
+  import the driver and <code>cinder.conf</code> can be read.</li>
 </ul>
 <p><strong>Example</strong></p>
 <p>Failover:</p>
-<pre><code class="language-bash">ansible-playbook -i local-inventory cinder-failover.yml \
+<pre><code class="language-bash">ansible-playbook -i inventories/local-inventory cinder-failover.yml \
   -e cinder_replication_openrc=/opt/stack/devstack/openrc \
   -e cinder_replication_target='&lt;host&gt;@&lt;backend&gt;' \
   -e cinder_replication_backend_id='&lt;replication_device_backend_id&gt;'
 </code></pre>
 <p>Failback:</p>
-<pre><code class="language-bash">ansible-playbook -i local-inventory cinder-failback.yml \
+<pre><code class="language-bash">ansible-playbook -i inventories/local-inventory cinder-failback.yml \
   -e cinder_replication_openrc=/opt/stack/devstack/openrc \
   -e cinder_replication_target='&lt;host&gt;@&lt;backend&gt;'
 </code></pre>
 <p>Run both commands from <code>alletramp/playbooks/openstack_cinder/</code>. After each run,
-also check the volumes (<code>cinder list --all-projects</code>), because the host status
-only shows that the backend finished, not that every volume switched.</p>
+check the volumes as well:</p>
+<pre><code class="language-bash">cinder service-list --withreplication
+cinder list --all-projects --field ID,Name,Status,os-vol-host-attr:host,replication_status
+</code></pre>
+<p>The backend status only indicates that the failover or failback workflow
+completed. If individual volumes fail, the backend can still end <code>failed-over</code>
+or <code>enabled</code> while those volumes show <code>replication_status</code> <code>error</code>. Verify that
+replicated volumes and consistency groups report the expected replication
+status and backend assignment.</p>
+<p><strong>Limitations</strong></p>
+<ul>
+<li>The playbooks orchestrate Cinder replication operations and do not perform
+  storage failover directly.</li>
+<li>Successful backend failover does not guarantee application-level
+  availability.</li>
+<li>Network connectivity between OpenStack services and the target backend must
+  be available.</li>
+<li>A request the driver rejects, such as a remote copy group that is not started
+  or a primary array that is still down on failback, leaves the backend
+  unchanged. The playbook reports the failure only after the full settle
+  window.</li>
+</ul>
 <p><strong>More information</strong></p>
-<p>For the full variable list, per-scenario driver behavior, result and status
+<p>For the full variable list, driver scenarios and status rules, result and status
 reference, and troubleshooting, see the
-<a href="https://github.hpe.com/hpe/hpe_storage_ansible_modules/blob/pike_changes/alletramp/playbooks/openstack_cinder/README.md">Ansible Cinder Replication Component for CFO/CFB</a>.</p>
+<a href="../README.md">Ansible Cinder Replication Component for CFO/CFB</a>.</p>
               
             </div>
           </div><footer>
