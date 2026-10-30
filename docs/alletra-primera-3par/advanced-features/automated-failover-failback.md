@@ -1,4 +1,4 @@
-# Automated Failover (CFO) / Failback (CFB)
+# Automated Failover (CFO) / Failback (CFB) Replication Recovery
 
 Cinder replication lets a replicated HPE Alletra MP backend be switched to its
 secondary (DR) array when the primary is unavailable, and switched back once the
@@ -11,7 +11,7 @@ wrap that procedure in Ansible playbooks, so the same validated steps run every
 time. The playbooks work with Peer Persistence (active-active) volumes and
 groups, and run standalone or from an OpenStack-Ansible deployment.
 
-## How it works
+**How it works**
 
 The playbooks do not talk to the storage arrays. They validate the request,
 issue `cinder failover-host`, and watch the Cinder service record until the
@@ -30,17 +30,17 @@ driver performs the array-side work.
    ends.
 5. **Verification:** reports the final state of the target backend.
 
-## Failover and failback at a glance
+**Failover and failback at a glance**
 
 | | Failover (CFO) | Failback (CFB) |
 |---|---|---|
-| Purpose | Move the backend to the secondary (DR) array | Return the backend to the original primary array |
+| Purpose | Move backend to secondary (DR) array | Return backend to primary |
 | Entry point | `cinder-failover.yml` | `cinder-failback.yml` |
 | `backend_id` | The `replication_device` to fail over to | Always `default` |
 | Works when primary is | Up (planned) or down (unplanned) | Up and reachable |
 | Expected host status afterwards | `failed-over` | `enabled` |
 
-## Prerequisites
+**Prerequisites**
 
 - Replication is configured on the backend (`replication_device` is set).
 - Every Peer Persistence remote copy group is started and fully synchronized.
@@ -49,7 +49,7 @@ driver performs the array-side work.
 - An OpenStack RC file with credentials allowed to list Cinder services and
   invoke backend failover.
 
-## Example
+**Example**
 
 Failover:
 
@@ -72,8 +72,10 @@ Run both commands from `alletramp/playbooks/openstack_cinder/`. After each run,
 also check the volumes (`cinder list --all-projects`), because the host status
 only shows that the backend finished, not that every volume switched.
 
-## More information
+**More information**
 
 For the full variable list, per-scenario driver behavior, result and status
 reference, and troubleshooting, see the
-<a href="https://github.hpe.com/hpe/hpe_storage_ansible_modules/blob/pike_changes/alletramp/playbooks/openstack_cinder/README.md"> Ansible Cinder Replication Component for CFO/CFB</a>.
+[Ansible Cinder Replication Component for CFO/CFB][cinder-readme].
+
+[cinder-readme]: https://github.hpe.com/hpe/hpe_storage_ansible_modules/blob/pike_changes/alletramp/playbooks/openstack_cinder/README.md
