@@ -69,16 +69,6 @@
                 </li>
                 <li class="toctree-l3 current"><a class="reference internal current" href="#">Automated Failover (CFO) / Failback (CFB)</a>
     <ul class="current">
-    <li class="toctree-l4"><a class="reference internal" href="#how-it-works">How it works</a>
-    </li>
-    <li class="toctree-l4"><a class="reference internal" href="#failover-and-failback-at-a-glance">Failover and failback at a glance</a>
-    </li>
-    <li class="toctree-l4"><a class="reference internal" href="#prerequisites">Prerequisites</a>
-    </li>
-    <li class="toctree-l4"><a class="reference internal" href="#example">Example</a>
-    </li>
-    <li class="toctree-l4"><a class="reference internal" href="#more-information">More information</a>
-    </li>
     </ul>
                 </li>
     </ul>
@@ -146,7 +136,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="automated-failover-cfo-failback-cfb">Automated Failover (CFO) / Failback (CFB)</h1>
+                <h1 id="automated-failover-cfo-failback-cfb-replication-recovery">Automated Failover (CFO) / Failback (CFB) Replication Recovery</h1>
 <p>Cinder replication lets a replicated HPE Alletra MP backend be switched to its
 secondary (DR) array when the primary is unavailable, and switched back once the
 primary recovers. Run by hand, this means checking service state, picking the
@@ -156,7 +146,7 @@ backend settled. Mistakes here can leave a backend half-switched.</p>
 wrap that procedure in Ansible playbooks, so the same validated steps run every
 time. The playbooks work with Peer Persistence (active-active) volumes and
 groups, and run standalone or from an OpenStack-Ansible deployment.</p>
-<h2 id="how-it-works">How it works</h2>
+<p><strong>How it works</strong></p>
 <p>The playbooks do not talk to the storage arrays. They validate the request,
 issue <code>cinder failover-host</code>, and watch the Cinder service record until the
 backend reaches the expected replication status. The HPE Alletra MP Cinder
@@ -174,7 +164,7 @@ driver performs the array-side work.</p>
    ends.</li>
 <li><strong>Verification:</strong> reports the final state of the target backend.</li>
 </ol>
-<h2 id="failover-and-failback-at-a-glance">Failover and failback at a glance</h2>
+<p><strong>Failover and failback at a glance</strong></p>
 <table>
 <thead>
 <tr>
@@ -186,8 +176,8 @@ driver performs the array-side work.</p>
 <tbody>
 <tr>
 <td>Purpose</td>
-<td>Move the backend to the secondary (DR) array</td>
-<td>Return the backend to the original primary array</td>
+<td>Move backend to secondary (DR) array</td>
+<td>Return backend to primary</td>
 </tr>
 <tr>
 <td>Entry point</td>
@@ -211,7 +201,7 @@ driver performs the array-side work.</p>
 </tr>
 </tbody>
 </table>
-<h2 id="prerequisites">Prerequisites</h2>
+<p><strong>Prerequisites</strong></p>
 <ul>
 <li>Replication is configured on the backend (<code>replication_device</code> is set).</li>
 <li>Every Peer Persistence remote copy group is started and fully synchronized.</li>
@@ -220,7 +210,7 @@ driver performs the array-side work.</p>
 <li>An OpenStack RC file with credentials allowed to list Cinder services and
   invoke backend failover.</li>
 </ul>
-<h2 id="example">Example</h2>
+<p><strong>Example</strong></p>
 <p>Failover:</p>
 <pre><code class="language-bash">ansible-playbook -i local-inventory cinder-failover.yml \
   -e cinder_replication_openrc=/opt/stack/devstack/openrc \
@@ -235,10 +225,10 @@ driver performs the array-side work.</p>
 <p>Run both commands from <code>alletramp/playbooks/openstack_cinder/</code>. After each run,
 also check the volumes (<code>cinder list --all-projects</code>), because the host status
 only shows that the backend finished, not that every volume switched.</p>
-<h2 id="more-information">More information</h2>
+<p><strong>More information</strong></p>
 <p>For the full variable list, per-scenario driver behavior, result and status
 reference, and troubleshooting, see the
-<a href="https://github.hpe.com/hpe/hpe_storage_ansible_modules/blob/pike_changes/alletramp/playbooks/openstack_cinder/README.md"> Ansible Cinder Replication Component for CFO/CFB</a>.</p>
+<a href="https://github.hpe.com/hpe/hpe_storage_ansible_modules/blob/pike_changes/alletramp/playbooks/openstack_cinder/README.md">Ansible Cinder Replication Component for CFO/CFB</a>.</p>
               
             </div>
           </div><footer>
