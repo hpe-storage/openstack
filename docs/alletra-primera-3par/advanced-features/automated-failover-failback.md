@@ -42,10 +42,10 @@ driver performs the array-side work.
 
 | Item | Failover (CFO) | Failback (CFB) |
 |---|---|---|
-| Purpose | Move backend to secondary (DR) array | Return backend to primary array |
+| Purpose | Move backend to secondary (DR) array | Return backend to primary |
 | Entry point | `cinder-failover.yml` | `cinder-failback.yml` |
 | `backend_id` | Target `replication_device` backend | `default` |
-| Primary array state | Available (planned failover) or unavailable (disaster recovery failover) | Available and reachable |
+| Primary array | Available or unavailable | Available and reachable |
 | Expected `replication_status` | `failed-over` | `enabled` |
 
 For failback, Cinder uses `backend_id=default`, which instructs the driver to
@@ -104,9 +104,15 @@ status and backend assignment.
 - Network connectivity between OpenStack services and the target backend must
   be available.
 - A request the driver rejects, such as a remote copy group that is not started
-  or a primary array that is still down on failback, leaves the backend
-  unchanged. The playbook reports the failure only after the full settle
-  window.
+  while the primary is up, or a primary array that is still down on failback,
+  leaves the backend unchanged. The playbook reports the failure only after the
+  full settle window. If the primary is down on failover, a remote copy group
+  that is not started fails only the affected volume or group.
+- If `cinder-volume` (c-vol) is restarted while the primary array is
+  unreachable, the driver does not initialize, and a failover request (host or
+  group) fails before it reaches either array. The host ends in
+  `failover-error`. Failover works again only after the primary is reachable
+  and c-vol has been restarted.
 
 **More information**
 
