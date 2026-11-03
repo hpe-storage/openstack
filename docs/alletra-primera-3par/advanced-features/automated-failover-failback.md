@@ -1,4 +1,4 @@
-# Automated Failover (CFO) / Failback (CFB) Replication Recovery
+# Automated Failover/Failback Replication Recovery
 
 Cinder replication lets a replicated HPE Alletra MP backend be switched to its
 secondary (DR) array when the primary is unavailable, and switched back once the
@@ -7,7 +7,7 @@ right `backend_id`, issuing the Cinder command and then confirming that the
 backend settled. Mistakes during manual execution can leave a backend in an
 intermediate or inconsistent failover state.
 
-Automated failover (CFO, Cinder failover) and failback (CFB, Cinder failback)
+Automated Cinder failover and Cinder failback
 wrap that procedure in Ansible playbooks, so the same validated steps run every
 time. The playbooks work with Peer Persistence (active-active) volumes and
 groups, and run standalone or from an OpenStack-Ansible deployment.
@@ -40,7 +40,7 @@ driver performs the array-side work.
 
 **Failover and failback at a glance**
 
-| Item | Failover (CFO) | Failback (CFB) |
+| Item | Failover | Failback |
 |---|---|---|
 | Purpose | Move backend to secondary (DR) array | Return backend to primary |
 | Entry point | `cinder-failover.yml` | `cinder-failback.yml` |
@@ -118,6 +118,6 @@ status and backend assignment.
 
 For the full variable list, driver scenarios and status rules, result and status
 reference, and troubleshooting, see the
-[Ansible Cinder Replication Component for CFO/CFB][cinder-readme].
+[Ansible Cinder Failover/Failback Replication Component][cinder-readme].
 
 [cinder-readme]: ../README.md
