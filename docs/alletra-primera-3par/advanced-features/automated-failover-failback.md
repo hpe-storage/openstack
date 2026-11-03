@@ -120,4 +120,4 @@ For the full variable list, driver scenarios and status rules, result and status
 reference, and troubleshooting, see the
 [Ansible Cinder Failover/Failback Replication Component][cinder-readme].
 
-[cinder-readme]: https://github.hpe.com/hpe/hpe_storage_ansible_modules/blob/main/alletramp/playbooks/openstack_cinder/README.md
+[cinder-readme]: https://github.com/hpe-storage/hpe_storage_ansible_modules/blob/main/alletramp/playbooks/openstack_cinder/README.md
