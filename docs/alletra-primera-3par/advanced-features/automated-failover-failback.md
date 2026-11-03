@@ -12,6 +12,10 @@ wrap that procedure in Ansible playbooks, so the same validated steps run every
 time. The playbooks work with Peer Persistence (active-active) volumes and
 groups, and run standalone or from an OpenStack-Ansible deployment.
 
+> **Note:** These playbooks depend on the new HPE Alletra MP Cinder driver
+> patch,
+> [1006944](https://review.opendev.org/c/openstack/cinder/+/1006944).
+
 **How it works**
 
 The playbooks do not talk to the storage arrays. They validate the request,
