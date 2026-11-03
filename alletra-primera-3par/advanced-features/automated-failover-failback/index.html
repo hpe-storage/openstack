@@ -147,6 +147,11 @@ intermediate or inconsistent failover state.</p>
 wrap that procedure in Ansible playbooks, so the same validated steps run every
 time. The playbooks work with Peer Persistence (active-active) volumes and
 groups, and run standalone or from an OpenStack-Ansible deployment.</p>
+<blockquote>
+<p><strong>Note:</strong> These playbooks depend on the new HPE Alletra MP Cinder driver
+patch,
+<a href="https://review.opendev.org/c/openstack/cinder/+/1006944">1006944</a>.</p>
+</blockquote>
 <p><strong>How it works</strong></p>
 <p>The playbooks do not talk to the storage arrays. They validate the request,
 issue <code>cinder failover-host</code>, and watch the Cinder service record until the
