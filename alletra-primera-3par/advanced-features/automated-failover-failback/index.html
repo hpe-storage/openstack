@@ -185,7 +185,7 @@ driver performs the array-side work.</p>
 <tr>
 <td>Purpose</td>
 <td>Move backend to secondary (DR) array</td>
-<td>Return backend to primary array</td>
+<td>Return backend to primary</td>
 </tr>
 <tr>
 <td>Entry point</td>
@@ -198,8 +198,8 @@ driver performs the array-side work.</p>
 <td><code>default</code></td>
 </tr>
 <tr>
-<td>Primary array state</td>
-<td>Available (planned failover) or unavailable (disaster recovery failover)</td>
+<td>Primary array</td>
+<td>Available or unavailable</td>
 <td>Available and reachable</td>
 </tr>
 <tr>
@@ -253,9 +253,15 @@ status and backend assignment.</p>
 <li>Network connectivity between OpenStack services and the target backend must
   be available.</li>
 <li>A request the driver rejects, such as a remote copy group that is not started
-  or a primary array that is still down on failback, leaves the backend
-  unchanged. The playbook reports the failure only after the full settle
-  window.</li>
+  while the primary is up, or a primary array that is still down on failback,
+  leaves the backend unchanged. The playbook reports the failure only after the
+  full settle window. If the primary is down on failover, a remote copy group
+  that is not started fails only the affected volume or group.</li>
+<li>If <code>cinder-volume</code> (c-vol) is restarted while the primary array is
+  unreachable, the driver does not initialize, and a failover request (host or
+  group) fails before it reaches either array. The host ends in
+  <code>failover-error</code>. Failover works again only after the primary is reachable
+  and c-vol has been restarted.</li>
 </ul>
 <p><strong>More information</strong></p>
 <p>For the full variable list, driver scenarios and status rules, result and status
