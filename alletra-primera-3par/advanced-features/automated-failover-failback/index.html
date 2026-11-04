@@ -251,6 +251,8 @@ replicated volumes and consistency groups report the expected replication
 status and backend assignment.</p>
 <p><strong>Limitations</strong></p>
 <ul>
+<li>Supported only for Active-Active Peer Persistence (AAPP) synchronous
+  replication. Periodic and plain synchronous replication are not supported fully.</li>
 <li>The playbooks orchestrate Cinder replication operations and do not perform
   storage failover directly.</li>
 <li>Successful backend failover does not guarantee application-level
