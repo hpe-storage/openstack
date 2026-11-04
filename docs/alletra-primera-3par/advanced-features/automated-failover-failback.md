@@ -101,6 +101,8 @@ status and backend assignment.
 
 **Limitations**
 
+- Supported only for Active-Active Peer Persistence (AAPP) synchronous
+  replication. Periodic and plain synchronous replication are not supported fully.
 - The playbooks orchestrate Cinder replication operations and do not perform
   storage failover directly.
 - Successful backend failover does not guarantee application-level
